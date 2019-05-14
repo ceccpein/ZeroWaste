@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, myFridge.class);
+                Intent myIntent = new Intent(MainActivity.this, MyFridge.class);
                 startActivityForResult(myIntent, 100);
             }
         });
