@@ -12,17 +12,18 @@ public class MainActivity extends AppCompatActivity {
     private static EditText username;
     private static EditText password;
     private static Button login_btn;
-    Button loginBtn = (Button) findViewById(R.id.loginButton);
+    //Button loginBtn = (Button) findViewById(R.id.loginButton);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        buttonClick(loginBtn);
+        buttonClick();
     }
 
-    public void buttonClick(Button loginBtn) {
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+    public void buttonClick() {
+        login_btn = (Button) findViewById(R.id.loginButton);
+        login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, MyFridge.class);
