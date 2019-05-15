@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "897490790632",
+    "firebase_url": "https://zerowaste-77cdc.firebaseio.com",
+    "project_id": "zerowaste-77cdc",
+    "storage_bucket": "zerowaste-77cdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897490790632:android:f9bb025d076084a3",
+        "android_client_info": {
+          "package_name": "com.example.zerowaste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897490790632-fkrkf0o71h7cegn5unsiqgqe8a94rr6r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zerowaste",
+            "certificate_hash": "2e69d27a9182aa88c3c822a87b6bed6deff2af89"
+          }
+        },
+        {
+          "client_id": "897490790632-dj3n1dvpharurinl5biocadaei02plk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMZc5lltvyZm50ipOGabn3K-nUGzgnYPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897490790632-dj3n1dvpharurinl5biocadaei02plk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

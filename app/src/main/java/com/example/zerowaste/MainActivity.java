@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private static EditText username;
     private static EditText password;
     private static Button login_btn;
+    //private DatabaseReference mDatabase;
     //Button loginBtn = (Button) findViewById(R.id.loginButton);
 
     @Override
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent myIntent = new Intent(MainActivity.this, MyFridge.class);
                 startActivity(myIntent);
             }
