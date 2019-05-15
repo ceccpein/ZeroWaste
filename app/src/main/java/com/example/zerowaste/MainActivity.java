@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabase.child("users").child("ingvild").child("password").setValue("hesterbest2");
         //goes into users, ingvild, and sets password with hesterbest2
-
-
+        
 
     }
 
