@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DatabaseReference mDatabase;
+    private ValueEventListener postListener;
+
     String TAG = "tag12346";
 
     @Override
@@ -29,11 +31,51 @@ public class MainActivity extends AppCompatActivity {
         //may have to remove these lines?
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("users").child("ingvild").child("password").setValue("hesterbest2");
-        //goes into users, ingvild, and sets password with hesterbest2
-        
+        mDatabase.child("users").child("ingvild").child("matvarer").child("bananas").setValue("10 mai");
+        //goes into users, ingvild, matvarer, bananas og setter bananas med 10 mai
+
+        mDatabase.child("posts").setValue(new Post("ingvilds","nilsson"));
+        readDB();
 
     }
+
+    public static class Post {
+
+        public String author;
+        public String title;
+
+        public Post(String author, String title) {
+            this.author = author;
+            this.title = title;
+        }
+
+    }
+
+    // Get a reference to our posts
+
+    public void readDB() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("/posts/");
+
+    // Attach a listener to read the data at our posts reference
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Log.d(TAG, dataSnapshot.getValue().toString());
+                String s = dataSnapshot.getValue().toString();
+                Log.d(TAG, s);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });}
+
+
 
 
 
