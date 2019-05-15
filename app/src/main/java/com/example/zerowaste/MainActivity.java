@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonClick() {
         login_btn = (Button) findViewById(R.id.loginButton);
+        username = (EditText)findViewById(R.id.editText_username);
+        password = (EditText)findViewById(R.id.editText_password);
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 }
