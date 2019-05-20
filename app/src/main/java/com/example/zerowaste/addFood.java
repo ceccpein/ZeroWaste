@@ -5,6 +5,7 @@ package com.example.zerowaste;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,6 +32,7 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
     private int ChosenY = 0;
     private int ChosenM = 0;
     private int ChosenD = 0;
+    private Button btnDone;
 
 
     @Override
@@ -42,9 +44,11 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
         txtDate = (EditText) findViewById(R.id.in_date);
         btnAddFood = (Button) findViewById(R.id.add_btn);
         txtFood = (EditText) findViewById(R.id.food_item);
+        btnDone = (Button) findViewById(R.id.done_btn);
 
         btnDatePicker.setOnClickListener(this);
         btnAddFood.setOnClickListener(this);
+        btnDone.setOnClickListener(this);
 
     }
 
@@ -85,12 +89,15 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
             if (!fooditem.equals("") && ChosenY != 0 && ChosenM != 0 && ChosenD != 0) {
                 mDatabase.child("users").child(username).child("food items").child(fooditem).setValue(expriationDate);
                 toastmsg(fooditem + " is added to your fridge");
+                txtFood.setText("");
+                txtDate.setText("");
             } else {
                 toastmsg("You need to fill out all the fields");
             }
-
-
-
+        }
+        if (v == btnDone) {
+            Intent myIntent = new Intent(addFood.this, MyFridge.class);
+            startActivity(myIntent);
         }
 
     }
