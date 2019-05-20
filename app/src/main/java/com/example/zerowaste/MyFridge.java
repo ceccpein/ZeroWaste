@@ -1,5 +1,6 @@
 package com.example.zerowaste;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import android.os.Handler;
+import android.app.AlertDialog;
+
 
 
 
@@ -39,6 +42,7 @@ public class MyFridge extends AppCompatActivity {
         setContentView(R.layout.activity_fridge);
 
 
+
         //may have to remove these lines?
         mDatabase = FirebaseDatabase.getInstance().getReference();
         //mDatabase.child("users").child("ingvild").child("matvarer").child("bananas").setValue("10 mai");
@@ -52,15 +56,6 @@ public class MyFridge extends AppCompatActivity {
         final ListView listview = (ListView) findViewById(R.id.listview);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
 
-        addGrocery("melk","10 juni");
-        addGrocery("melk1","10 juni");
-        addGrocery("melk2","10 juni");
-        addGrocery("melk3","10 juni");
-        addGrocery("melk4","10 juni");
-        addGrocery("mel5","10 juni");
-        addGrocery("mel6","10 juni");
-        addGrocery("melk7","10 juni");
-        addGrocery("melk8","10 juni");
 
 
 
@@ -82,8 +77,23 @@ public class MyFridge extends AppCompatActivity {
                 listview.setAdapter(arrayAdapter);
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        listview.removeViewAt(position);
+                    public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
+
+
+                        new AlertDialog.Builder(MyFridge.this)
+                                .setTitle("Are you sure you want to delete"+ dataList.get(position) +"?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        parent.removeViewInLayout(view);
+                                        removeGrocery(dataList.get(position));
+
+                                    }
+                                })
+
+                                .setNegativeButton("No",null)
+                                .create()
+                                .show();
+
                     }
                 });
             }
@@ -93,19 +103,18 @@ public class MyFridge extends AppCompatActivity {
     }
 
 
-    public ArrayList<String> addFoodToListView(String list) {
-        ArrayList<String> returnlist = null;
-        String[] allItems1 = list.split(",");
-        ArrayList<String> allItems = new ArrayList<String>(Arrays.asList(allItems1));
-        for (String item : allItems) {
-            String[] foodexp = item.split("=");
-            String food = foodexp[0];
-            String exp = foodexp[1];
-            returnlist.add(food + "  :  " + exp);
-
-        }
-        return returnlist;
+    public void removeGrocery(String groceryanddate) {
+        String user = "ingvild"; //getUsername();
+        String grocery;
+        groceryanddate = groceryanddate.replace(" ", "");
+        String[] groceryanddate2 = groceryanddate.split(":");
+        grocery = groceryanddate2[0];
+        Log.d(TAG,"raw input " + groceryanddate + ", split "+ groceryanddate2 + ", grocery " + grocery);
+        DatabaseReference remove = mDatabase.child("users").child(user).child("matvarer").child(grocery);
+        remove.removeValue();
     }
+
+
 
     public void addGrocery(String grocery, String date) {
         String user = "ingvild"; //getUsername();
