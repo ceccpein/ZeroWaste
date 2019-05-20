@@ -33,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        DataModel[] drawerItem = new DataModel[3];
+        DataModel[] drawerItem = new DataModel[4];
 
         //Icons and text in menu
         drawerItem[0] = new DataModel(R.drawable.myfridge, "My Fridge");
         drawerItem[1] = new DataModel(R.drawable.myaccount, "My Account");
         drawerItem[2] = new DataModel(R.drawable.sharefridge, "Share Fridge");
+        drawerItem[3] = new DataModel(R.drawable.getrecipes, "Get Recipes");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
