@@ -24,9 +24,9 @@ public class MyFridge extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Add food has been clicked");
-                Intent myIntent = new Intent(MyFridge.this, addFood.class);
+                Intent newIntent = new Intent(MyFridge.this, addFood.class);
                 Log.d(TAG, "intent created");
-                startActivity(myIntent);
+                startActivity(newIntent);
             }
         });
     }

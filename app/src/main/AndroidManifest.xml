@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MyFridge"></activity>
+        <activity android:name=".addFood"></activity>
     </application>
 
 </manifest>

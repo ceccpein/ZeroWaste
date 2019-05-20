@@ -176,5 +176,8 @@ public class MainActivity extends AppCompatActivity {
         void onSecCallback(Boolean value);
     }
 
+    public String getUsername() {
+        return username.getText().toString();
+    }
 }
 

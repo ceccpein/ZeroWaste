@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,11 +11,23 @@
     tools:context=".addFood">
 
     <EditText
+        android:id="@+id/food_item"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="40dp"
+        android:hint="Food item"
+        android:layout_width="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/in_date"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="200dp"
         android:layout_marginLeft="40dp"
+        android:hint="Expiration date"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -22,6 +39,27 @@
         android:id="@+id/btn_date"
         android:layout_alignBottom="@+id/in_date"
         android:layout_toRightOf="@+id/in_date"
-        android:layout_toEndOf="@+id/in_date" />
+        android:layout_toEndOf="@+id/in_date"
+        android:textSize="11dp"/>
+<!--
+    <Button
+        android:id="@+id/select_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_alignBottom="@+id/food_item"
+        android:layout_toRightOf="@+id/food_item"
+        android:text="@string/select_food"
+        android:textSize="11dp"/>
+-->
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp"
+        android:text="Add to fridge"
+        android:textSize="11dp"/>
 
 </RelativeLayout>
+</ScrollView>

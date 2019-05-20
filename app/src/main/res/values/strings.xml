@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ZeroWaste</string>
     <string name="select_date">SELECT DATE</string>
+    <string name="select_food">Select food</string>
 </resources>
