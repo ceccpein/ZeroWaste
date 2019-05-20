@@ -1,6 +1,8 @@
 package com.example.zerowaste;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
     private static Button sign_up;
     private static Button sign_in;
 
+    SharedPreferences sharedpreferences;
+    int autoSave;
+
     private DatabaseReference mDatabase;
     private DatabaseReference users;
-
-    //final Boolean authenticated = null;
-    //final Boolean usernameCheck = null;
 
     String TAG = "tag12";
 
@@ -38,8 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        buttonClick();
 
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        int j = sharedpreferences.getInt("key", 0);
+
+        //Default is 0 so autologin is disabled
+        if (j > 0) {
+            Intent activity = new Intent(getApplicationContext(), MyFridge.class);
+            startActivity(activity);
+        }
+        buttonClick();
     }
 
     public void buttonClick() {
@@ -48,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         Log.d(TAG, username.getText().toString());
+
+
 
         sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
                     toastmsg("New user created. Username: " + username.getText().toString());
                     Intent myIntent = new Intent(MainActivity.this, MyFridge.class);
                     startActivity(myIntent);
+                    autoSave = 1;
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putInt("key", autoSave);
+                    editor.apply();
+
                 } else {
                     toastmsg("You didn't fill in all the fields");
                 }
@@ -92,9 +109,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCallback(String value) {
                         if (value.equals(password.getText().toString())) {
+                            //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
+
                             Toast.makeText(MainActivity.this, username.getText().toString() +" is signed in", Toast.LENGTH_SHORT).show();
                             Intent myIntent = new Intent(MainActivity.this, MyFridge.class);
                             startActivity(myIntent);
+                            autoSave = 1;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putInt("key", autoSave);
+                            editor.apply();
                         } else {
                             toastmsg("Wrong pass");
                         }
