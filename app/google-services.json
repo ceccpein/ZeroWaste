@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "897490790632-fkrkf0o71h7cegn5unsiqgqe8a94rr6r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zerowaste",
+            "certificate_hash": "2e69d27a9182aa88c3c822a87b6bed6deff2af89"
+          }
+        },
+        {
           "client_id": "897490790632-dj3n1dvpharurinl5biocadaei02plk6.apps.googleusercontent.com",
           "client_type": 3
         }
