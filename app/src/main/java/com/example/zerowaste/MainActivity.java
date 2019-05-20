@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        DataModel[] drawerItem = new DataModel[4];
+        DataModel[] drawerItem = new DataModel[6];
 
         //Icons and text in menu
         drawerItem[0] = new DataModel(R.drawable.myfridge, "My Fridge");
         drawerItem[1] = new DataModel(R.drawable.myaccount, "My Account");
         drawerItem[2] = new DataModel(R.drawable.sharefridge, "Share Fridge");
-        drawerItem[3] = new DataModel(R.drawable.getrecipes, "Get Recipes");
+        drawerItem[3] = new DataModel(R.drawable.getrecipe, "Get Recipes");
+        drawerItem[4] = new DataModel(R.drawable.shoppinglist, "Shopping List");
+        drawerItem[5] = new DataModel(R.drawable.logout, "Logout");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -74,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = new ShareFridgeFragment();
+                break;
+            case 3:
+                fragment = new GetRecipesFragment();
+                break;
+            case 4:
+                fragment = new ShoppingListFragment();
+                break;
+            case 5:
+                fragment = new LogoutFragment();
                 break;
 
             default:

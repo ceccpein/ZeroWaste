@@ -5,5 +5,7 @@
         <item>My Account</item>
         <item>Share Fridge</item>
         <item>Get Recipes</item>
+        <item>Shopping List</item>
+        <item>Logout</item>
     </string-array>
 </resources>
