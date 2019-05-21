@@ -70,7 +70,7 @@ public class MyFridge extends AppCompatActivity {
                     String[] foodexp = item.split("=");
                     String food = foodexp[0];
                     String exp = foodexp[1];
-                    dataList.add(food + "  :  " + exp);
+                    dataList.add(food + ":  " + exp);
                 }
 
 
