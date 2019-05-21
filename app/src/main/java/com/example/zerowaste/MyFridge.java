@@ -48,6 +48,9 @@ public class MyFridge extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String TAG = "tag12346";
 
+    final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
+    final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<ArrayList<String>>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,7 @@ public class MyFridge extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
         Log.d(TAG,"here is the date: " + date);
+
 
 
 
@@ -130,8 +134,6 @@ public class MyFridge extends AppCompatActivity {
                 String[] ddmmyyyyTodaysArray = todaysDate.split("-");
                 ArrayList<String> ddmmyyyyTodaysList = new ArrayList<String>(Arrays.asList(ddmmyyyyTodaysArray));
 
-                ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
-                ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<ArrayList<String>>();
 
 
                 for (ArrayList<String> foodexppair : foodlist) {
@@ -167,8 +169,7 @@ public class MyFridge extends AppCompatActivity {
 
         });
 
-        notifier();
-        alarm();
+        //checkLists();
     }
 
 
@@ -208,8 +209,6 @@ public class MyFridge extends AppCompatActivity {
                     String s = dataSnapshot.getValue().toString();
                     foods = s;
                     Log.d(TAG,"here is foods2"+s);
-
-
             }
 
             @Override
@@ -244,7 +243,7 @@ public class MyFridge extends AppCompatActivity {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                        .setContentTitle("Notifications Example")
+                        .setContentTitle("Notifications NEW!!!!!")
                         .setContentText("This is a test notification");
 
         Intent notificationIntent = new Intent(this,MyFridge.class);
@@ -259,24 +258,22 @@ public class MyFridge extends AppCompatActivity {
     }
 
     public void alarm() {
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-        alarmMgr = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplicationContext(), MyFridge.class);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-
-
-        // Set the alarm to start at approximately 2:00 p.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-
-// With setInexactRepeating(), you have to use one of the AlarmManager interval
-// constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
+
+    void checkLists() {
+        if (foodExpiredList.size() != 0 || foodExpiresList.size() != 0) {
+            Log.d(TAG,"set of notification");
+            notifier();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        checkLists();
+    }
 
     public interface MyCallback {
         void onCallback(String value);
