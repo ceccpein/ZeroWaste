@@ -1,5 +1,8 @@
 package com.example.zerowaste;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -84,7 +87,15 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ShoppingListFragment();
                 break;
             case 5:
-                fragment = new LogoutFragment();
+                SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("key", 0);
+                editor.apply();
+
+                Intent i = new Intent(this.getApplicationContext(), Login.class);
+                startActivity(i);
+
+                //fragment = new LogoutFragment();
                 break;
 
             default:
