@@ -4,7 +4,6 @@
 package com.example.zerowaste;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +32,8 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
     private int ChosenD = 0;
     private Button btnDone;
 
+    private Button btnTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,17 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
 
         btnDatePicker = (Button) findViewById(R.id.btn_date);
         txtDate = (EditText) findViewById(R.id.in_date);
-        btnAddFood = (Button) findViewById(R.id.add_btn);
+        btnAddFood = (Button) findViewById(R.id.add_users_btn);
         txtFood = (EditText) findViewById(R.id.food_item);
         btnDone = (Button) findViewById(R.id.done_btn);
+
+        btnTest = (Button) findViewById(R.id.test_btn);
 
         btnDatePicker.setOnClickListener(this);
         btnAddFood.setOnClickListener(this);
         btnDone.setOnClickListener(this);
+
+        btnTest.setOnClickListener(this);
 
     }
 
@@ -98,6 +102,11 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
         if (v == btnDone) {
             Intent myIntent = new Intent(addFood.this, MyFridge.class);
             startActivity(myIntent);
+
+        }
+        if (v == btnTest) {
+            Intent testIntent = new Intent(addFood.this, shareFridge.class);
+            startActivity(testIntent);
         }
 
     }
