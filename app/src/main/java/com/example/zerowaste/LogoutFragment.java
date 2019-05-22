@@ -23,18 +23,18 @@ public class LogoutFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences prefs = getActivity().getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("key", 0);
-        editor.apply();
+        //SharedPreferences prefs = getActivity().getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = prefs.edit();
+        //editor.putInt("key", 0);
+        //editor.apply();
 
         //sharedPreferences = login.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         //SharedPreferences.Editor editor = sharedPreferences.edit();
         //editor.putInt("key", 0);
         //editor.apply();
 
-        Intent i = new Intent(getActivity().getApplicationContext(), Login.class);
-        startActivity(i);
+        //Intent i = new Intent(getActivity().getApplicationContext(), Login.class);
+        //startActivity(i);
     }
 
 
