@@ -56,9 +56,21 @@ public class MyFridge extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fridge);
 
+        /*
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND,5);
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);*/
 
 
-        //may have to remove these lines?
+
+
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         //mDatabase.child("users").child("ingvild").child("matvarer").child("bananas").setValue("10 mai");
         //goes into users, ingvild, matvarer, bananas og setter bananas med 10 mai
@@ -261,18 +273,29 @@ public class MyFridge extends AppCompatActivity {
     }
 
 
-    void checkLists() {
+    Boolean checkLists() {
         if (foodExpiredList.size() != 0 || foodExpiresList.size() != 0) {
             Log.d(TAG,"set of notification");
-            notifier();
+            //notifier();
+            return true;
         }
+        return false;
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        checkLists();
+        if (checkLists()) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.SECOND,10);
+
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);
+        }
     }
 
     public interface MyCallback {
