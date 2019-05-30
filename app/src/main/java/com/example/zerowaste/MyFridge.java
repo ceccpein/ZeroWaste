@@ -48,7 +48,7 @@ public class MyFridge extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String TAG = "tag12346";
 
-    final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
+    static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
     final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<ArrayList<String>>();
 
     @Override
@@ -146,8 +146,6 @@ public class MyFridge extends AppCompatActivity {
                 String[] ddmmyyyyTodaysArray = todaysDate.split("-");
                 ArrayList<String> ddmmyyyyTodaysList = new ArrayList<String>(Arrays.asList(ddmmyyyyTodaysArray));
 
-
-
                 for (ArrayList<String> foodexppair : foodlist) {
                     //Log.d(TAG, todaysDate + " " + foodexppair.get(1));
                     String[] ddmmyyyyArray = foodexppair.get(1).split("-");
@@ -181,7 +179,16 @@ public class MyFridge extends AppCompatActivity {
 
         });
 
-        //checkLists();
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        int intToSend = foodExpiredList.size() + foodExpiresList.size();
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
+        Log.d("START123","hereherehere");
+
     }
 
 
@@ -274,6 +281,7 @@ public class MyFridge extends AppCompatActivity {
 
 
     Boolean checkLists() {
+
         if (foodExpiredList.size() != 0 || foodExpiresList.size() != 0) {
             Log.d(TAG,"set of notification");
             //notifier();
@@ -286,16 +294,23 @@ public class MyFridge extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (checkLists()) {
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.SECOND,10);
+        /*AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND,10);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-            Intent intent = new Intent(this, AlarmReceiver.class);
-            PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        int intToSend = foodExpiredList.size() + foodExpiresList.size();
 
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);
-        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), broadcast);*/
+
+        //put in oncreate
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public interface MyCallback {
