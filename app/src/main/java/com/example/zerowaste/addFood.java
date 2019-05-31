@@ -105,9 +105,13 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
         if (v == btnDone) {
             //Intent myIntent = new Intent(addFood.this, MyFridgeFragment.class);
             //this.startActivity(myIntent);
+            /*
             Fragment fridgeFragment = new MyFridgeFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fridge_fragment, fridgeFragment).commit();
+            */
+            Intent myIntent = new Intent(addFood.this, MainActivity.class);
+            this.startActivity(myIntent);
         }
 
     }
