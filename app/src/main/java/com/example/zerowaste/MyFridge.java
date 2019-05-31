@@ -43,9 +43,6 @@ import android.util.Pair;
 public class MyFridge extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private ValueEventListener postListener;
-    public String foods = "empty";
-    ArrayAdapter<String> arrayAdapter;
     String TAG = "tag12346";
 
     static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
@@ -72,12 +69,7 @@ public class MyFridge extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        //mDatabase.child("users").child("ingvild").child("matvarer").child("bananas").setValue("10 mai");
-        //goes into users, ingvild, matvarer, bananas og setter bananas med 10 mai
-        //mDatabase.child("posts").child("author").setValue(new MainActivity.Post("ingvilds2","nilsson2"));
-        //addGrocery("ost","15 mai");
 
-        //foods = readDB();
 
         final List<String> dataList = new ArrayList<String>();
         final ListView listview = (ListView) findViewById(R.id.listview);
@@ -88,8 +80,6 @@ public class MyFridge extends AppCompatActivity {
         String pattern = "dd-M-yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
-        Log.d(TAG,"here is the date: " + date);
-
 
 
 
@@ -187,7 +177,6 @@ public class MyFridge extends AppCompatActivity {
         int intToSend = foodExpiredList.size() + foodExpiresList.size();
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
-        Log.d("START123","hereherehere");
 
     }
 
@@ -212,35 +201,6 @@ public class MyFridge extends AppCompatActivity {
 
 
 
-
-    public String readDB() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("/users/ingvild/matvarer");
-        final String s = "unitialized";
-        // Attach a listener to read the data at our posts reference
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-                    //Log.d(TAG, dataSnapshot.getKey().toString());
-                    String s = dataSnapshot.getValue().toString();
-                    foods = s;
-                    Log.d(TAG,"here is foods2"+s);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-    return s;
-    }
-
-
     public void readData(final MyCallback myCallback) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("/users/ingvild/matvarer");
@@ -257,38 +217,6 @@ public class MyFridge extends AppCompatActivity {
     }
 
 
-    public void notifier() {
-
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                        .setContentTitle("Notifications NEW!!!!!")
-                        .setContentText("This is a test notification");
-
-        Intent notificationIntent = new Intent(this,MyFridge.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-
-        // Add as notification
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
-
-    }
-
-    public void alarm() {
-    }
-
-
-    Boolean checkLists() {
-
-        if (foodExpiredList.size() != 0 || foodExpiresList.size() != 0) {
-            Log.d(TAG,"set of notification");
-            //notifier();
-            return true;
-        }
-        return false;
-    }
 
 
     @Override
