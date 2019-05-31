@@ -38,8 +38,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Intent notificationIntent = new Intent(context, MyFridgeFragment.class);
+        Log.d("tag1234", "In AlarmReceiver");
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+
+        Log.d("tag1234", "after stackbuilder");
         stackBuilder.addParentStack(MyFridgeFragment.class);
         stackBuilder.addNextIntent(notificationIntent);
 

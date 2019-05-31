@@ -40,12 +40,21 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        /*
         sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         int j = sharedpreferences.getInt("key", 0);
 
         //Default is 0 so autologin is disabled
         if (j > 0) {
+            Intent activity = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(activity);
+        }
+        */
+
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+
+        if (j != null) {
             Intent activity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(activity);
         }
@@ -68,11 +77,13 @@ public class Login extends AppCompatActivity {
                 if (!username.getText().toString().equals("") && (!password.getText().toString().equals(""))) {
                     writeNewUser(username.getText().toString(), password.getText().toString());
                     toastmsg("New user created. Username: " + username.getText().toString());
-                    Intent myIntent = new Intent(Login.this, MyFridgeFragment.class);
+                    Intent myIntent = new Intent(Login.this, MainActivity.class);
                     startActivity(myIntent);
-                    autoSave = 1;
+                    //autoSave = 1;
+                    String uname = username.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putInt("key", autoSave);
+                    //editor.putInt("key", autoSave);
+                    editor.putString("key", uname);
                     editor.apply();
 
                 } else {
@@ -108,15 +119,18 @@ public class Login extends AppCompatActivity {
                 readPassword(new MyCallback() {
                     @Override
                     public void onCallback(String value) {
+                        Log.d(TAG, "password i readPAssword: "+value);
                         if (value.equals(password.getText().toString())) {
                             //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
 
                             Toast.makeText(Login.this, username.getText().toString() +" is signed in", Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(Login.this, MyFridgeFragment.class);
+                            Intent myIntent = new Intent(Login.this, MainActivity.class);
                             startActivity(myIntent);
-                            autoSave = 1;
+                            //autoSave = 1;
+                            String uname = username.getText().toString();
                             SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putInt("key", autoSave);
+                            //editor.putInt("key", autoSave);
+                            editor.putString("key", uname);
                             editor.apply();
                         } else {
                             toastmsg("Wrong pass");
@@ -177,6 +191,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String pass = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Password "+ pass);
                 myCallback.onCallback(pass);
             }
 
@@ -200,7 +215,11 @@ public class Login extends AppCompatActivity {
     }
 
     public String getUsername() {
-        return username.getText().toString();
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+        Log.d(TAG, "Username in pref " +j);
+        //return username.getText().toString();
+        return j;
     }
 
 }

@@ -2,8 +2,10 @@ package com.example.zerowaste;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +36,8 @@ public class MyFridgeFragment extends Fragment {
     private DatabaseReference mDatabase;
     String TAG = "tag12346";
     private static Button addfood;
-    Login login = new Login();
+
+    SharedPreferences sharedpreferences;
 
     static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<>();
     final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<>();
@@ -153,8 +156,6 @@ public class MyFridgeFragment extends Fragment {
             }
 
         }
-
-
         return null;
     }
 
@@ -163,7 +164,7 @@ public class MyFridgeFragment extends Fragment {
 
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().getApplicationContext().ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
-        Intent intent = new Intent(getActivity().getApplicationContext(), AlarmReceiver.class);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(getActivity().getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -182,7 +183,7 @@ public class MyFridgeFragment extends Fragment {
 
     public void removeGrocery(String groceryanddate) {
         //String user = "ingvild"; //getUsername();
-        String user = login.getUsername();
+        String user = getUsername();
         String grocery;
         groceryanddate = groceryanddate.replace(" ", "");
         String[] groceryanddate2 = groceryanddate.split(":");
@@ -194,14 +195,19 @@ public class MyFridgeFragment extends Fragment {
 
     public void readData(final MyCallback myCallback) {
         Log.d(TAG, "Readdata has been called");
-        String user = login.getUsername();
+        String user = getUsername();
+
+        Log.d(TAG, "User: "+ user);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         Log.d(TAG, "Read from database");
-        DatabaseReference myRef = database.getReference("/users/"+user+"/matvarer");
+        String path = "/users/"+user+"/food items";
+        Log.d(TAG, "Path: "+ path);
+        DatabaseReference myRef = database.getReference(path);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue().toString();
+                Log.d(TAG, "Value readdata; "+value);
                 myCallback.onCallback(value);
             }
 
@@ -215,6 +221,13 @@ public class MyFridgeFragment extends Fragment {
     public interface MyCallback {
         void onCallback(String value);
         ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist);
+    }
+
+    public String getUsername() {
+        sharedpreferences = this.getActivity().getSharedPreferences("autoLogin", getActivity().getApplicationContext().MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+        Log.d(TAG, "Username in pref " +j);
+        return j;
     }
 
 

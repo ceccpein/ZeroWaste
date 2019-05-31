@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".addFood"></activity>
 
         <receiver android:name=".AlarmReceiver" android:enabled="true"></receiver>
 
