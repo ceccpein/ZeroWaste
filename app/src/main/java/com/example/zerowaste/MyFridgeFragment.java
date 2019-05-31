@@ -30,6 +30,7 @@ public class MyFridgeFragment extends Fragment {
     ArrayAdapter<String> arrayAdapter;
     String TAG = "tag12346";
 
+
     public MyFridgeFragment() {
     }
     @Override
