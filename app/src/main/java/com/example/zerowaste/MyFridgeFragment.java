@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import android.app.AlertDialog;
+import android.widget.Toast;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -188,7 +190,7 @@ public class MyFridgeFragment extends Fragment {
         String[] groceryanddate2 = groceryanddate.split(":");
         grocery = groceryanddate2[0];
         //Log.d(TAG,"raw input " + groceryanddate + ", split "+ groceryanddate2 + ", grocery " + grocery);
-        DatabaseReference remove = mDatabase.child("users").child(user).child("matvarer").child(grocery);
+        DatabaseReference remove = mDatabase.child("users").child(user).child("food items").child(grocery);
         remove.removeValue();
     }
 
@@ -205,9 +207,15 @@ public class MyFridgeFragment extends Fragment {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue().toString();
-                Log.d(TAG, "Value readdata; "+value);
-                myCallback.onCallback(value);
+                if (dataSnapshot.getValue() != null) {
+                    Log.d("tag123", dataSnapshot.toString());
+                    String value = dataSnapshot.getValue().toString();
+                    Log.d(TAG, "Value readdata; "+value);
+                    myCallback.onCallback(value);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
