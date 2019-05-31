@@ -196,6 +196,7 @@ public class MyFridgeFragment extends Fragment {
 
     public void readData(final MyCallback myCallback) {
         Log.d(TAG, "Readdata has been called");
+        sharedpreferences = this.getActivity().getSharedPreferences("", getActivity().getApplicationContext().MODE_PRIVATE);
         String user = getUsername();
 
         Log.d(TAG, "User: "+ user);
