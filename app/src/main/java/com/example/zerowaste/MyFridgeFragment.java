@@ -40,7 +40,7 @@ public class MyFridgeFragment extends Fragment {
     String TAG = "tag12346";
     private static Button addfood;
 
-    ArrayList<String> shareList;
+    ArrayList<String> shareList = new ArrayList<String>();
 
     SharedPreferences sharedpreferences;
 
