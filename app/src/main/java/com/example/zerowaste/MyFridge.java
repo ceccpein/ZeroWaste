@@ -174,8 +174,6 @@ public class MyFridge extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(this,100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        int intToSend = foodExpiredList.size() + foodExpiresList.size();
-
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
 
     }
