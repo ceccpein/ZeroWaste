@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity {
                 if (!username.getText().toString().equals("") && (!password.getText().toString().equals(""))) {
                     writeNewUser(username.getText().toString(), password.getText().toString());
                     toastmsg("New user created. Username: " + username.getText().toString());
-                    Intent myIntent = new Intent(Login.this, MainActivity.class);
+                    Intent myIntent = new Intent(Login.this, MyFridgeFragment.class);
                     startActivity(myIntent);
                     autoSave = 1;
                     SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -112,7 +112,7 @@ public class Login extends AppCompatActivity {
                             //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
 
                             Toast.makeText(Login.this, username.getText().toString() +" is signed in", Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(Login.this, MainActivity.class);
+                            Intent myIntent = new Intent(Login.this, MyFridgeFragment.class);
                             startActivity(myIntent);
                             autoSave = 1;
                             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -197,6 +197,10 @@ public class Login extends AppCompatActivity {
 
     public interface MySecondCallback {
         void onSecCallback(Boolean value);
+    }
+
+    public String getUsername() {
+        return username.getText().toString();
     }
 
 }
