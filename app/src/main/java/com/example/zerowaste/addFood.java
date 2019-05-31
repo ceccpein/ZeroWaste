@@ -5,9 +5,15 @@ package com.example.zerowaste;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,7 +28,6 @@ import java.util.Calendar;
 
 public class addFood extends AppCompatActivity implements View.OnClickListener{
 
-    Login login = new Login();
     private Button btnDatePicker;
     private EditText txtDate;
     private int mYear, mMonth, mDay;
@@ -33,6 +38,8 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
     private int ChosenM = 0;
     private int ChosenD = 0;
     private Button btnDone;
+
+    SharedPreferences sharedpreferences;
 
 
     @Override
@@ -82,7 +89,7 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
         if (v == btnAddFood) {
 
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            String username = login.getUsername();
+            String username = getUsername();
             String fooditem = txtFood.getText().toString();
             String expriationDate = ChosenD + "-" + ChosenM + "-" + ChosenY;
 
@@ -96,14 +103,25 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
             }
         }
         if (v == btnDone) {
-            Intent myIntent = new Intent(addFood.this, MyFridgeFragment.class);
-            startActivity(myIntent);
+            //Intent myIntent = new Intent(addFood.this, MyFridgeFragment.class);
+            //this.startActivity(myIntent);
+            Fragment fridgeFragment = new MyFridgeFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fridge_fragment, fridgeFragment).commit();
         }
 
     }
 
     private void toastmsg(String message) {
         Toast.makeText(addFood.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public String getUsername() {
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+        //Log.d(TAG, "Username in pref " +j);
+        //return username.getText().toString();
+        return j;
     }
 
 }

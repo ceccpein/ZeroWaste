@@ -37,13 +37,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         final ArrayList<ArrayList<String>> foodExpList = new ArrayList<ArrayList<String>>();
 
 
-        Intent notificationIntent = new Intent(context, MyFridgeFragment.class);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
         Log.d("tag1234", "In AlarmReceiver");
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
         Log.d("tag1234", "after stackbuilder");
-        stackBuilder.addParentStack(MyFridgeFragment.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(notificationIntent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

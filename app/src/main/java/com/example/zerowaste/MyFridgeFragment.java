@@ -162,7 +162,7 @@ public class MyFridgeFragment extends Fragment {
 
 });
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().getApplicationContext().ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(getActivity().getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
