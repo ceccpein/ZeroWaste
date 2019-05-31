@@ -176,13 +176,12 @@ public class MyFridgeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_myfridge, container, false);
-        Log.d(TAG, "View inflated");
+        //Log.d(TAG, "View inflated");
 
         return rootView;
     }
 
     public void removeGrocery(String groceryanddate) {
-        //String user = "ingvild"; //getUsername();
         String user = getUsername();
         String grocery;
         groceryanddate = groceryanddate.replace(" ", "");
