@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,9 @@ public class ShareFridgeFragment extends Fragment {
     private ListView shareList;
     private ArrayAdapter adapter;
     public List<String> share_with = new ArrayList<>();
+
+    private DatabaseReference mDatabase;
+    private String user;
 
     public String user_share;
 
@@ -50,6 +56,9 @@ public class ShareFridgeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d("tag123", "onStart");
+
+        sharedPreferences = getActivity().getSharedPreferences("autoLogin", getActivity().MODE_PRIVATE);
+        user = sharedPreferences.getString("key", null);
 
         buttonClick();
 
@@ -92,17 +101,26 @@ public class ShareFridgeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase.child("users").child(user).child("share").setValue(share_with.toString().replace("[","").replace("]",""));
+
+
+                /*
                 //myIntent.putExtra("share", share_with);
                 //String shareString = String.join(", ", share_with);
                 String shareString = share_with.toString();
                 //String usersString = new Gson().toJson(share_with);
                 //myIntent.putExtra("share", usersString);
+
                 sharedPreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("shareList",shareString);
                 editor.apply();
                 //Log.d("tag1234", usersString);
                 Log.d("tag1234", shareString);
+                */
+
                 startActivity(myIntent);
 
             }

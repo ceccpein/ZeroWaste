@@ -1,16 +1,19 @@
 package com.example.zerowaste;
 
 import android.app.Activity;
+import android.app.AliasActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,8 +30,15 @@ import java.util.Date;
 public class AlarmReceiver extends BroadcastReceiver {
 
     public String InAlarmReceiver = "In alarmreceiver";
+    SharedPreferences sharedPreferences;
+    String user = "";
+
+    MyFridgeFragment fridgeFragment = new MyFridgeFragment();
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        sharedPreferences = context.getSharedPreferences("autoLogin", context.MODE_PRIVATE);
+        user = sharedPreferences.getString("key", null);
 
         Log.d(InAlarmReceiver, "Beginning of alarmreceiver, 1");
 
@@ -128,12 +138,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void readData(final MyCallback2 myCallback) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("/users/ingvild/matvarer");
+        String path = "/users/"+user+"/food items/";
+        DatabaseReference myRef = database.getReference(path);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue().toString();
-                myCallback.onCallback2(value);
+                if (dataSnapshot.getValue() != null) {
+                    String value = dataSnapshot.getValue().toString();
+                    myCallback.onCallback2(value);
+                } else {
+                    Log.d("tag123", "empty datasnapshot");
+                }
             }
 
             @Override

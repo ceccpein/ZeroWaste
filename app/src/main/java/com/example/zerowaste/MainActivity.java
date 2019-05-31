@@ -98,10 +98,15 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("key", null);
                 editor.apply();
 
+                SharedPreferences prefs1 = this.getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = prefs1.edit();
+                editor1.putString("shareList", null);
+                editor1.apply();
+
+
                 Intent i = new Intent(this.getApplicationContext(), Login.class);
                 startActivity(i);
 
-                //fragment = new LogoutFragment();
                 break;
 
             default:

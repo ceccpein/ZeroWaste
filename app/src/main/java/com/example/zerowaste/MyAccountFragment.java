@@ -16,7 +16,9 @@ import org.w3c.dom.Text;
 public class MyAccountFragment extends Fragment {
 
     TextView userIn;
+    TextView shareFridge;
     SharedPreferences sharedpreferences;
+
 
     public MyAccountFragment() {
     }
@@ -33,9 +35,18 @@ public class MyAccountFragment extends Fragment {
         super.onStart();
 
         userIn = (TextView) getView().findViewById(R.id.userSingedIn);
-        sharedpreferences = this.getActivity().getSharedPreferences("autoLogin", getActivity().getApplicationContext().MODE_PRIVATE);
+        sharedpreferences = this.getActivity().getSharedPreferences("autoLogin", getActivity().MODE_PRIVATE);
         String j = sharedpreferences.getString("key",null);
         userIn.setText(j);
+
+        shareFridge = (TextView) getView().findViewById(R.id.shareFridge);
+        sharedpreferences = this.getActivity().getSharedPreferences("ShareFridge", getActivity().MODE_PRIVATE);
+        String shareList = sharedpreferences.getString("shareList", null);
+        if (shareList == null) {
+            shareFridge.setText("You are not sharing fridge with anyone");
+        } else {
+            shareFridge.setText("You are sharing fridge with: "+shareList);
+        }
 
     }
 

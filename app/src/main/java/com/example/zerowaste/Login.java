@@ -146,6 +146,7 @@ public class Login extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("users").child(name).child("password").setValue(pw);
+        mDatabase.child("users").child(name).child("food items");
 
     }
 

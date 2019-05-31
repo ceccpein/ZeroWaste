@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import android.app.AlertDialog;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -38,6 +39,8 @@ public class MyFridgeFragment extends Fragment {
     private DatabaseReference mDatabase;
     String TAG = "tag12346";
     private static Button addfood;
+
+    ArrayList<String> shareList;
 
     SharedPreferences sharedpreferences;
 
@@ -105,10 +108,12 @@ public class MyFridgeFragment extends Fragment {
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
+                        TextView myMsg = new TextView(getActivity());
+                        myMsg.setText("Are you sure you want to delete "+ dataList.get(position) +"?");
+                        myMsg.setTextSize(20);
 
-
-                        new AlertDialog.Builder(getActivity().getApplicationContext())
-                                .setTitle("Are you sure you want to delete"+ dataList.get(position) +"?")
+                        new AlertDialog.Builder(getActivity())
+                                .setCustomTitle(myMsg)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         parent.removeViewInLayout(view);
@@ -154,7 +159,6 @@ public class MyFridgeFragment extends Fragment {
                     && (Integer.parseInt(ddmmyyyyList.get(0)) - Integer.parseInt(ddmmyyyyTodaysList.get(0))) <= 2) {
                 Log.d(TAG,"Food is about to expire " + foodexppair);
                 foodExpiresList.add(foodexppair);
-
             }
 
         }
@@ -169,7 +173,6 @@ public class MyFridgeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(getActivity().getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
 
         }
@@ -178,7 +181,6 @@ public class MyFridgeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_myfridge, container, false);
-        //Log.d(TAG, "View inflated");
 
         return rootView;
     }
@@ -196,39 +198,94 @@ public class MyFridgeFragment extends Fragment {
 
     public void readData(final MyCallback myCallback) {
         Log.d(TAG, "Readdata has been called");
-        sharedpreferences = this.getActivity().getSharedPreferences("", getActivity().getApplicationContext().MODE_PRIVATE);
+
         String user = getUsername();
+        getUsernameList();
+        Log.d(TAG+"username readDb", user);
+
+        //Log.d("tag123 usernamelist", shareList.toString());
+        shareList.add(user);
 
         Log.d(TAG, "User: "+ user);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         Log.d(TAG, "Read from database");
-        String path = "/users/"+user+"/food items";
-        Log.d(TAG, "Path: "+ path);
+        if (shareList.size() == 1) {
+            Log.d("tag123", "not sharing with anybody");
+            String path = "/users/"+user+"/food items";
+            Log.d(TAG, "Path: "+ path);
+            DatabaseReference myRef = database.getReference(path);
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        Log.d("tag123", dataSnapshot.toString());
+                        String value = dataSnapshot.getValue().toString();
+                        Log.d(TAG, "Value readdata; "+value);
+                        myCallback.onCallback(value);
+                    } else {
+                        Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
+        }
+        for (String username : shareList) {
+            String path = "/users/"+username+"/food items";
+            Log.d(TAG, "Path: "+ path);
+            DatabaseReference myRef = database.getReference(path);
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        Log.d("tag123", dataSnapshot.toString());
+                        String value = dataSnapshot.getValue().toString();
+                        Log.d(TAG, "Value readdata; "+value);
+                        myCallback.onCallback(value);
+                    } else {
+                        Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
+        }
+    }
+
+    public void readShare(final MyCallback2 myCallback) {
+        String user = getUsername();
+        String path = "/users/"+user+"/share";
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(path);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    Log.d("tag123", dataSnapshot.toString());
+                    Log.d(TAG + "sharelist from db", dataSnapshot.getValue().toString());
                     String value = dataSnapshot.getValue().toString();
-                    Log.d(TAG, "Value readdata; "+value);
                     myCallback.onCallback(value);
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "You are not sharing fridge", Toast.LENGTH_SHORT).show();
                 }
 
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
 
-
     public interface MyCallback {
         void onCallback(String value);
         ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist);
+    }
+
+    public interface MyCallback2 {
+        void onCallback(String value);
     }
 
     public String getUsername() {
@@ -238,7 +295,26 @@ public class MyFridgeFragment extends Fragment {
         return j;
     }
 
-
-
-
+    public void getUsernameList() {
+        /*
+        sharedpreferences = this.getActivity().getSharedPreferences("ShareFridge", getActivity().getApplicationContext().MODE_PRIVATE);
+        String j = sharedpreferences.getString("shareList",null);
+        if (j == null) {
+            return null;
+        } else {
+            Log.d("tag123 ulist bf con", j);
+            String[] TempUsernames = j.replace("[","").replace("]","").split(",");
+            ArrayList<String> usernames = new ArrayList<>(Arrays.asList(TempUsernames));
+            return usernames;
+        }
+        */
+        readShare(new MyCallback2() {
+            @Override
+            public void onCallback(String value) {
+                Log.d(TAG+"in readshare",value);
+                String[] tempusernames = value.split(",");
+                ArrayList<String> shareListDB = new ArrayList<>(Arrays.asList(tempusernames));
+            }
+        });
+    }
 }
