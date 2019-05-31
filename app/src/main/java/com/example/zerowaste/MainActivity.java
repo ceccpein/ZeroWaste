@@ -87,9 +87,15 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ShoppingListFragment();
                 break;
             case 5:
+                /*
                 SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("key", 0);
+                editor.apply();
+                */
+                SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("key", null);
                 editor.apply();
 
                 Intent i = new Intent(this.getApplicationContext(), Login.class);
