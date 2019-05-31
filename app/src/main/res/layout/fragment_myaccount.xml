@@ -15,8 +15,17 @@
         android:id="@+id/shareFridge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="100dp"
         android:layout_marginLeft="50dp" />
+
+    <Button
+        android:id="@+id/stopShare"
+        android:text="stop sharing"
+        android:layout_marginTop="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        />
 
 
 </LinearLayout>

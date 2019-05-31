@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true">
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +7,7 @@
 
     <Button
         android:id="@+id/add_item"
-        android:layout_width="121dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -33,7 +28,7 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="231dp"
-        android:layout_height="452dp"
+        android:layout_height="350dp"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="147dp"
@@ -44,4 +39,3 @@
         app:layout_constraintVertical_bias="0.242" />
 
 </android.support.constraint.ConstraintLayout>
-</ScrollView>
