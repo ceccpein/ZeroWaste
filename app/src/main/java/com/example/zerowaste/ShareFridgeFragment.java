@@ -26,17 +26,14 @@ import java.util.List;
  */
 public class ShareFridgeFragment extends Fragment {
 
-    private static Button add_user;
+    //private static Button add_user;
     private static Button share;
     private static EditText username;
     private ListView shareList;
     private ArrayAdapter adapter;
     public List<String> share_with = new ArrayList<>();
 
-    private DatabaseReference mDatabase;
     private String user;
-
-    public String user_share;
 
     public static final String MY_PREFS_NAME = "ShareFridge";
     private SharedPreferences sharedPreferences;
@@ -82,10 +79,11 @@ public class ShareFridgeFragment extends Fragment {
 
     public void buttonClick() {
 
-        add_user = (Button) getView().findViewById(R.id.add_users_btn);
+        //add_user = (Button) getView().findViewById(R.id.add_users_btn);
         share = (Button) getView().findViewById(R.id.share_btn);
         username = (EditText) getView().findViewById(R.id.user_name);
 
+        /*
         add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +94,14 @@ public class ShareFridgeFragment extends Fragment {
                 username.setText("");
             }
         });
+        */
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                share_with.add(username.getText().toString());
+                Toast.makeText(getActivity().getApplicationContext(), "You are now sharing fridge with: "+username.getText().toString(), Toast.LENGTH_SHORT).show();
+
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
 
                 String shareString = share_with.toString();
