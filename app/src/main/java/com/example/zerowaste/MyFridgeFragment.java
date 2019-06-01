@@ -108,6 +108,7 @@ public class MyFridgeFragment extends Fragment {
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
+                        Log.d("tag1234 gros", dataList.get(position));
                         TextView myMsg = new TextView(getActivity());
                         myMsg.setText("Are you sure you want to delete "+ dataList.get(position) +"?");
                         myMsg.setTextSize(20);
@@ -129,6 +130,7 @@ public class MyFridgeFragment extends Fragment {
                     }
                 });
     }
+
 
     @Override
     public ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist) {
@@ -195,97 +197,6 @@ public class MyFridgeFragment extends Fragment {
         DatabaseReference remove = mDatabase.child("users").child(user).child("food items").child(grocery);
         remove.removeValue();
     }
-    /*
-    public void readData(final MyCallback myCallback) {
-        Log.d(TAG, "Readdata has been called");
-
-        readShare(new MyCallback2() {
-            @Override
-            public void onCallback(String value) {
-                String user = getUsername();
-                Log.d(TAG + "in readshare", value);
-                String[] tempusernames = value.split(",");
-                ArrayList<String> shareListDB = new ArrayList<>(Arrays.asList(tempusernames));
-                Log.d(TAG + "username readDb", user);
-                shareListDB.add(user);
-
-                Log.d(TAG, "User: " + user);
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                Log.d(TAG, "Read from database");
-                if (shareListDB.size() == 1) {
-                    Log.d("tag123", "not sharing with anybody");
-                    String path = "/users/" + user + "/food items";
-                    Log.d(TAG, "Path: " + path);
-                    DatabaseReference myRef = database.getReference(path);
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() != null) {
-                                Log.d("tag123", dataSnapshot.toString());
-                                String value = dataSnapshot.getValue().toString();
-                                Log.d(TAG, "Value readdata; " + value);
-                                myCallback.onCallback(value);
-                            } else {
-                                Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                } else {
-                    for (String username : shareListDB) {
-                        String path = "/users/" + username + "/food items";
-                        Log.d(TAG, "Path: " + path);
-                        DatabaseReference myRef = database.getReference(path);
-                        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue() != null) {
-                                    Log.d("tag123", dataSnapshot.toString());
-                                    String value = dataSnapshot.getValue().toString();
-                                    Log.d(TAG, "Value readdata; " + value);
-                                    myCallback.onCallback(value);
-                                } else {
-                                    Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    public void readShare(final MyCallback2 myCallback) {
-        String user = getUsername();
-        String path = "/users/"+user+"/share";
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(path);
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    Log.d(TAG + "sharelist from db", dataSnapshot.getValue().toString());
-                    String value = dataSnapshot.getValue().toString();
-                    myCallback.onCallback(value);
-                } else {
-                    Toast.makeText(getActivity(), "You are not sharing fridge", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
-
-    */
 
     public void readData(final MyCallback myCallback) {
         Log.d(TAG, "Readdata has been called");

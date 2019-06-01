@@ -48,9 +48,9 @@ public class MyAccountFragment extends Fragment {
         sharedpreferences = this.getActivity().getSharedPreferences("ShareFridge", getActivity().MODE_PRIVATE);
         String shareList = sharedpreferences.getString(username, null);
         if (shareList == null) {
-            shareFridge.setText("You are not sharing fridge with anyone");
+            shareFridge.setText("Nobody");
         } else {
-            shareFridge.setText("You are sharing fridge with: "+shareList);
+            shareFridge.setText(shareList.replace("[","").replace("]",""));
         }
 
         stopSharing = (Button) getView().findViewById(R.id.stopShare);
@@ -61,7 +61,7 @@ public class MyAccountFragment extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(username, null);
                 editor.apply();
-                shareFridge.setText("You are not sharing fridge with anyone");
+                shareFridge.setText("Nobody");
             }
         });
 

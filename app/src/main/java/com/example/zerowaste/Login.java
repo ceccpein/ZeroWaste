@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,8 @@ public class Login extends AppCompatActivity {
     private static EditText password;
     private static Button sign_up;
     private static Button sign_in;
+
+    private static ImageView longVege;
 
     SharedPreferences sharedpreferences;
     int autoSave;
@@ -66,8 +69,10 @@ public class Login extends AppCompatActivity {
         sign_in = findViewById(R.id.signIn);
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
-        //Log.d(TAG, username.getText().toString());
 
+        longVege = findViewById(R.id.imageView);
+        longVege.setImageResource(R.drawable.long_vegetable);
+        //Log.d(TAG, username.getText().toString());
 
 
         sign_up.setOnClickListener(new View.OnClickListener() {
@@ -115,31 +120,33 @@ public class Login extends AppCompatActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (username.getText().toString().equals("") || (password.getText().toString().equals(""))) {
+                    toastmsg("You didn't fill in all the fields");
+                } else {
+                    readPassword(new MyCallback() {
+                        @Override
+                        public void onCallback(String value) {
+                            Log.d(TAG, "password i readPAssword: " + value);
+                            if (value.equals(password.getText().toString())) {
+                                //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
 
-                readPassword(new MyCallback() {
-                    @Override
-                    public void onCallback(String value) {
-                        Log.d(TAG, "password i readPAssword: "+value);
-                        if (value.equals(password.getText().toString())) {
-                            //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
-
-                            Toast.makeText(Login.this, username.getText().toString() +" is signed in", Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(Login.this, MainActivity.class);
-                            startActivity(myIntent);
-                            //autoSave = 1;
-                            String uname = username.getText().toString();
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            //editor.putInt("key", autoSave);
-                            editor.putString("key", uname);
-                            editor.apply();
-                        } else {
-                            toastmsg("Wrong pass");
+                                Toast.makeText(Login.this, username.getText().toString() + " is signed in", Toast.LENGTH_SHORT).show();
+                                Intent myIntent = new Intent(Login.this, MainActivity.class);
+                                startActivity(myIntent);
+                                //autoSave = 1;
+                                String uname = username.getText().toString();
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                //editor.putInt("key", autoSave);
+                                editor.putString("key", uname);
+                                editor.apply();
+                            } else {
+                                toastmsg("Wrong password");
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
-
     }
     private void writeNewUser(String name, String pw) {
 

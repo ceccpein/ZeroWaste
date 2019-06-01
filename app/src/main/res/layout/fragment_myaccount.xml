@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,24 +10,57 @@
         android:id="@+id/userSingedIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintBottom_toTopOf="@id/shareFridge"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/username_text"/>
 
     <TextView
         android:id="@+id/shareFridge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toEndOf="@+id/sharingWith"
+        app:layout_constraintBottom_toTopOf="@id/stopShare"
+        app:layout_constraintTop_toBottomOf="@id/userSingedIn" />
 
     <Button
         android:id="@+id/stopShare"
-        android:text="stop sharing"
-        android:layout_marginTop="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="50dp"
-        />
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="16dp"
+        android:text="stop sharing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shareFridge" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You're now signed in as: "
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/userSingedIn"
+        app:layout_constraintEnd_toStartOf="@+id/userSingedIn"/>
+
+    <TextView
+        android:id="@+id/sharingWith"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are ahring fridge with: "
+        app:layout_constraintBaseline_toBaselineOf="@+id/shareFridge"
+        app:layout_constraintTop_toBottomOf="@+id/username_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/shareFridge"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="50dp"/>
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
