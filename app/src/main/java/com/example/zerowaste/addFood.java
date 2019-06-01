@@ -79,7 +79,7 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
 
                             txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                             ChosenY = year;
-                            ChosenM = monthOfYear;
+                            ChosenM = monthOfYear + 1;
                             ChosenD = dayOfMonth;
                         }
                     }, mYear, mMonth, mDay);
