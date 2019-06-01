@@ -117,9 +117,9 @@ public class MyFridgeFragment extends Fragment {
                                 .setCustomTitle(myMsg)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        parent.removeViewInLayout(view);
                                         removeGrocery(dataList.get(position));
-
+                                        dataList.remove(position);
+                                        listview.setAdapter(arrayAdapter);
                                     }
                                 })
 

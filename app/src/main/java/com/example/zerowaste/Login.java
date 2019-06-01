@@ -162,7 +162,6 @@ public class Login extends AppCompatActivity {
         users = mDatabase.child("users");
 
         final List<Boolean> checkName = new ArrayList<Boolean>();
-        Log.d(TAG, "inne i checkUsername");
         checkName.set(0,null);
 
         users.addListenerForSingleValueEvent(new ValueEventListener() {
