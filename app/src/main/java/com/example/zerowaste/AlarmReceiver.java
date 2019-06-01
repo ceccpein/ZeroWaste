@@ -113,7 +113,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                     notificationManager.notify(0, notifications);
                 }
 
-
             }
 
             @Override

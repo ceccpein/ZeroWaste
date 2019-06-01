@@ -49,15 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        DataModel[] drawerItem = new DataModel[6];
+        DataModel[] drawerItem = new DataModel[5];
 
         //Icons and text in menu
         drawerItem[0] = new DataModel(R.drawable.myfridge, "My Fridge");
         drawerItem[1] = new DataModel(R.drawable.myaccount, "My Account");
         drawerItem[2] = new DataModel(R.drawable.sharefridge, "Share Fridge");
         drawerItem[3] = new DataModel(R.drawable.getrecipe, "Get Recipes");
-        drawerItem[4] = new DataModel(R.drawable.shoppinglist, "Shopping List");
-        drawerItem[5] = new DataModel(R.drawable.logout, "Logout");
+        //drawerItem[4] = new DataModel(R.drawable.shoppinglist, "Shopping List");
+        drawerItem[4] = new DataModel(R.drawable.logout, "Logout");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -111,13 +111,15 @@ public class MainActivity extends AppCompatActivity {
                 zerowaste.setVisibility(View.GONE);
                 front.setVisibility(View.GONE);
                 break;
+            /*
             case 4:
                 fragment = new ShoppingListFragment();
                 hello.setVisibility(View.GONE);
                 zerowaste.setVisibility(View.GONE);
                 front.setVisibility(View.GONE);
                 break;
-            case 5:
+                */
+            case 4:
                 /*
                 SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
