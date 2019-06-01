@@ -8,4 +8,5 @@
         <item>Shopping List</item>
         <item>Logout</item>
     </string-array>
+    <string name="edittext_hint"><font size="12">Write ingredients here</font></string>
 </resources>
