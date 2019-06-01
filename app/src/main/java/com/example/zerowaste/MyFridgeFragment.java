@@ -34,6 +34,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static android.graphics.Color.rgb;
+
 
 public class MyFridgeFragment extends Fragment {
     private DatabaseReference mDatabase;
@@ -76,8 +78,7 @@ public class MyFridgeFragment extends Fragment {
 
         final List<String> dataList = new ArrayList<String>();
         final ListView listview = (ListView) getView().findViewById(R.id.listview);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, dataList);
-
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.custom_foodlist, dataList);
         final ArrayList<ArrayList<String>> foodExpList = new ArrayList<ArrayList<String>>();
 
 
