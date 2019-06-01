@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+        Log.d("Username", "Username in pref " +j);
+
+        TextView helloname = (TextView) findViewById(R.id.hello_name);
+        helloname.setText("Welcome "+j+ "!");
+        TextView zerowaste_tw = (TextView) findViewById(R.id.hello_name);
+        TextView front_text_tw = (TextView) findViewById(R.id.hello_name);
+
+
         mTitle = mDrawerTitle = getTitle();
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,33 +82,62 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position) {
 
         Fragment fragment = null;
+        TextView hello = (TextView) findViewById(R.id.hello_name);
+        TextView zerowaste = (TextView) findViewById(R.id.zerowaste_text);
+        TextView front = (TextView) findViewById(R.id.front_text);
 
         switch (position) {
             case 0:
                 fragment = new MyFridgeFragment();
+                hello.setVisibility(View.GONE);
+                zerowaste.setVisibility(View.GONE);
+                front.setVisibility(View.GONE);
                 break;
             case 1:
                 fragment = new MyAccountFragment();
+                hello.setVisibility(View.GONE);
+                zerowaste.setVisibility(View.GONE);
+                front.setVisibility(View.GONE);
                 break;
             case 2:
                 fragment = new ShareFridgeFragment();
+                hello.setVisibility(View.GONE);
+                zerowaste.setVisibility(View.GONE);
+                front.setVisibility(View.GONE);
                 break;
             case 3:
                 fragment = new GetRecipesFragment();
+                hello.setVisibility(View.GONE);
+                zerowaste.setVisibility(View.GONE);
+                front.setVisibility(View.GONE);
                 break;
             case 4:
                 fragment = new ShoppingListFragment();
+                hello.setVisibility(View.GONE);
+                zerowaste.setVisibility(View.GONE);
+                front.setVisibility(View.GONE);
                 break;
             case 5:
+                /*
                 SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("key", 0);
                 editor.apply();
+                */
+                SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("key", null);
+                editor.apply();
+
+                SharedPreferences prefs1 = this.getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = prefs1.edit();
+                editor1.putString("shareList", null);
+                editor1.apply();
+
 
                 Intent i = new Intent(this.getApplicationContext(), Login.class);
                 startActivity(i);
 
-                //fragment = new LogoutFragment();
                 break;
 
             default:
@@ -149,4 +191,7 @@ public class MainActivity extends AppCompatActivity {
         //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
     }
+
+
+
 }

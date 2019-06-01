@@ -25,7 +25,34 @@
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/front_text"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center"
+                android:text="The earth and your wallet are thanking you for using" />
+
+            <TextView
+                android:id="@+id/zerowaste_text"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:gravity="center"
+                android:text="ZeroWaste"
+                android:textColor="#228B22"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/hello_name"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#228B22"
+                android:textSize="15dp"
+                />
+        </FrameLayout>
 
     </LinearLayout>
 

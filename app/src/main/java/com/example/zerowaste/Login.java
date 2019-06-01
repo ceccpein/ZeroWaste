@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,8 @@ public class Login extends AppCompatActivity {
     private static Button sign_up;
     private static Button sign_in;
 
+    private static ImageView longVege;
+
     SharedPreferences sharedpreferences;
     int autoSave;
 
@@ -40,12 +43,21 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        /*
         sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         int j = sharedpreferences.getInt("key", 0);
 
         //Default is 0 so autologin is disabled
         if (j > 0) {
+            Intent activity = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(activity);
+        }
+        */
+
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+
+        if (j != null) {
             Intent activity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(activity);
         }
@@ -57,8 +69,10 @@ public class Login extends AppCompatActivity {
         sign_in = findViewById(R.id.signIn);
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
-        //Log.d(TAG, username.getText().toString());
 
+        longVege = findViewById(R.id.imageView);
+        longVege.setImageResource(R.drawable.long_vegetable);
+        //Log.d(TAG, username.getText().toString());
 
 
         sign_up.setOnClickListener(new View.OnClickListener() {
@@ -70,9 +84,11 @@ public class Login extends AppCompatActivity {
                     toastmsg("New user created. Username: " + username.getText().toString());
                     Intent myIntent = new Intent(Login.this, MainActivity.class);
                     startActivity(myIntent);
-                    autoSave = 1;
+                    //autoSave = 1;
+                    String uname = username.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putInt("key", autoSave);
+                    //editor.putInt("key", autoSave);
+                    editor.putString("key", uname);
                     editor.apply();
 
                 } else {
@@ -104,34 +120,40 @@ public class Login extends AppCompatActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (username.getText().toString().equals("") || (password.getText().toString().equals(""))) {
+                    toastmsg("You didn't fill in all the fields");
+                } else {
+                    readPassword(new MyCallback() {
+                        @Override
+                        public void onCallback(String value) {
+                            Log.d(TAG, "password i readPAssword: " + value);
+                            if (value.equals(password.getText().toString())) {
+                                //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
 
-                readPassword(new MyCallback() {
-                    @Override
-                    public void onCallback(String value) {
-                        if (value.equals(password.getText().toString())) {
-                            //Once you click login, it will add 1 to shredPreference which will allow autologin in onCreate
-
-                            Toast.makeText(Login.this, username.getText().toString() +" is signed in", Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(Login.this, MainActivity.class);
-                            startActivity(myIntent);
-                            autoSave = 1;
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putInt("key", autoSave);
-                            editor.apply();
-                        } else {
-                            toastmsg("Wrong pass");
+                                Toast.makeText(Login.this, username.getText().toString() + " is signed in", Toast.LENGTH_SHORT).show();
+                                Intent myIntent = new Intent(Login.this, MainActivity.class);
+                                startActivity(myIntent);
+                                //autoSave = 1;
+                                String uname = username.getText().toString();
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                //editor.putInt("key", autoSave);
+                                editor.putString("key", uname);
+                                editor.apply();
+                            } else {
+                                toastmsg("Wrong password");
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
-
     }
     private void writeNewUser(String name, String pw) {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("users").child(name).child("password").setValue(pw);
+        mDatabase.child("users").child(name).child("food items");
 
     }
 
@@ -177,6 +199,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String pass = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Password "+ pass);
                 myCallback.onCallback(pass);
             }
 
@@ -197,6 +220,14 @@ public class Login extends AppCompatActivity {
 
     public interface MySecondCallback {
         void onSecCallback(Boolean value);
+    }
+
+    public String getUsername() {
+        sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        String j = sharedpreferences.getString("key",null);
+        Log.d(TAG, "Username in pref " +j);
+        //return username.getText().toString();
+        return j;
     }
 
 }
