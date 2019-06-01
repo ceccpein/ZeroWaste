@@ -102,12 +102,7 @@ public class ShareFridgeFragment extends Fragment {
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
 
-                //mDatabase = FirebaseDatabase.getInstance().getReference();
-                //mDatabase.child("users").child(user).child("share").setValue(share_with.toString().replace("[","").replace("]",""));
-
                 String shareString = share_with.toString();
-                //String usersString = new Gson().toJson(share_with);
-                //myIntent.putExtra("share", usersString);
 
                 sharedPreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();

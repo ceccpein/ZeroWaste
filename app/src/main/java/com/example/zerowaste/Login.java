@@ -36,6 +36,7 @@ public class Login extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private DatabaseReference users;
+    private DatabaseReference user;
 
     String TAG = "tag12";
 
@@ -80,6 +81,24 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!username.getText().toString().equals("") && (!password.getText().toString().equals(""))) {
+                    checkUsername(new MySecondCallback() {
+                        @Override
+                        public void onSecCallback(Boolean value) {
+                            if (value) {
+                                writeNewUser(username.getText().toString(), password.getText().toString());
+                                toastmsg("New user created. Username: " + username.getText().toString());
+                                Intent myIntent = new Intent(Login.this, MainActivity.class);
+                                startActivity(myIntent);
+                                //autoSave = 1;
+                                String uname = username.getText().toString();
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                //editor.putInt("key", autoSave);
+                                editor.putString("key", uname);
+                                editor.apply();
+                            }
+                        }
+                    });
+                    /*
                     writeNewUser(username.getText().toString(), password.getText().toString());
                     toastmsg("New user created. Username: " + username.getText().toString());
                     Intent myIntent = new Intent(Login.this, MainActivity.class);
@@ -90,6 +109,7 @@ public class Login extends AppCompatActivity {
                     //editor.putInt("key", autoSave);
                     editor.putString("key", uname);
                     editor.apply();
+                    */
 
                 } else {
                     toastmsg("You didn't fill in all the fields");
@@ -209,6 +229,28 @@ public class Login extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private void checkUsername(final MySecondCallback myCallback) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = mDatabase.child("users").child(username.getText().toString());
+
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    toastmsg("This username already exits");
+                } else {
+                    myCallback.onSecCallback(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void toastmsg(String message) {
