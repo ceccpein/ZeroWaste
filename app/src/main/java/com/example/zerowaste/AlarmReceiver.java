@@ -60,8 +60,22 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        final Notification notification = builder.setContentTitle("Food is about to expire!")
+        final Notification notificationsd = builder.setContentTitle("Food is about to or has expired!")
+                .setContentText("One or more food items is about to expire or has expired.")
+                .setTicker("")
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent).build();
+
+        final Notification notifications = builder.setContentTitle("Food is about to expire!")
                 .setContentText("One or more food items is about to expire.")
+                .setTicker("")
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent).build();
+
+        final Notification notificationd = builder.setContentTitle("Food has expired!")
+                .setContentText("One or more food items has expired.")
                 .setTicker("")
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -89,11 +103,16 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Log.d(InAlarmReceiver, "in readdata");
                 findExpiringFood(foodExpList);
 
-                if (foodExpiredList.size() > 0 || foodExpiresList.size() > 0) {
-                    Log.d(InAlarmReceiver, "if check1");
-                    Log.d(InAlarmReceiver, "in check1 ending" +Integer.toString(foodExpiredList.size() + foodExpiresList.size()));
-                    notificationManager.notify(0, notification);
+                if (foodExpiredList.size() > 0 && foodExpiresList.size() > 0) {
+                    notificationManager.notify(0, notificationsd);
                 }
+                else if (foodExpiredList.size() > 0) {
+                    notificationManager.notify(0, notificationd);
+                }
+                else if (foodExpiresList.size() > 0) {
+                    notificationManager.notify(0, notifications);
+                }
+
 
             }
 
