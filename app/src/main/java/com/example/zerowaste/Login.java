@@ -197,14 +197,16 @@ public class Login extends AppCompatActivity {
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String pass = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Password "+ pass);
-                myCallback.onCallback(pass);
+                if (dataSnapshot.exists()) {
+                    String pass = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Password "+ pass);
+                    myCallback.onCallback(pass);
+                } else {
+                    toastmsg("Username doesn't exits/wrong username");
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
