@@ -40,7 +40,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         sharedPreferences = context.getSharedPreferences("autoLogin", context.MODE_PRIVATE);
         user = sharedPreferences.getString("key", null);
 
-        Log.d(InAlarmReceiver, "Beginning of alarmreceiver, 1");
 
         final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<ArrayList<String>>();
         final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<ArrayList<String>>();
@@ -48,11 +47,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
-        Log.d("tag1234", "In AlarmReceiver");
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
-        Log.d("tag1234", "after stackbuilder");
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(notificationIntent);
 
@@ -86,12 +83,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                     foodexp2.add(exp);
                     foodExpList.add(foodexp2);
                 }
-                Log.d(InAlarmReceiver, "in readdata");
                 findExpiringFood(foodExpList);
 
                 if (foodExpiredList.size() > 0 || foodExpiresList.size() > 0) {
-                    Log.d(InAlarmReceiver, "if check1");
-                    Log.d(InAlarmReceiver, "in check1 ending" +Integer.toString(foodExpiredList.size() + foodExpiresList.size()));
                     notificationManager.notify(0, notification);
                 }
 
