@@ -49,7 +49,6 @@ public class MyFridgeFragment extends Fragment {
     static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<>();
     final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<>();
 
-
     public MyFridgeFragment() {
     }
     @Override
@@ -76,7 +75,6 @@ public class MyFridgeFragment extends Fragment {
             }
         });
 
-        final List<String> dataList = new ArrayList<String>();
         final ListView listview = (ListView) getView().findViewById(R.id.listview);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.custom_foodlist, dataList);
         final ArrayList<ArrayList<String>> foodExpList = new ArrayList<ArrayList<String>>();

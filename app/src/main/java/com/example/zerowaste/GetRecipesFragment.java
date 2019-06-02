@@ -42,9 +42,15 @@ public class GetRecipesFragment extends Fragment {
 
         wv1=(WebView)rootView.findViewById(R.id.webView);
         WebSettings settings = wv1.getSettings();
-        settings.setAllowFileAccessFromFileURLs(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
+        //settings.setAllowFileAccessFromFileURLs(true);
+        //settings.setAllowUniversalAccessFromFileURLs(true);
         wv1.setWebViewClient(new MyBrowser());
+
+        MyFridgeFragment fridge = new MyFridgeFragment();
+        List<String> foodItems = fridge.getDataList();
+        Log.d("datalist: ", foodItems.toString());
+
+
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
