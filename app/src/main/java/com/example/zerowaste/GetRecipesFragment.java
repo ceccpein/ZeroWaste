@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -38,10 +39,12 @@ public class GetRecipesFragment extends Fragment {
     Button b1;
     EditText ed1;
     private DatabaseReference mDatabase;
+    private List<String> foodItems = new ArrayList<String>();
 
 
 
     private WebView wv1;
+    private LinearLayout linearLayout;
 
     public GetRecipesFragment() {
     }
@@ -50,7 +53,7 @@ public class GetRecipesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_getrecipes, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_getrecipes, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //getActivity().setContentView(R.layout.fragment_getrecipes);
@@ -75,12 +78,32 @@ public class GetRecipesFragment extends Fragment {
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
+               linearLayout = rootView.findViewById(R.id.rootContainer);
+               linearLayout.setVisibility(View.VISIBLE);
 
                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
                    if (uniqueKeySnapshot.getKey().equals(username)){
                        for (DataSnapshot foodSnapshot : uniqueKeySnapshot.child("food items").getChildren()){
                            String foodKey = foodSnapshot.getKey();
-                           Log.d("food: ", foodKey);
+                           foodItems.add(foodKey);
+                           CheckBox checkBox = new CheckBox(getActivity());
+                           checkBox.setText(foodKey);
+                           checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                           checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                               @Override
+                               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                   String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                                   Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                               }
+                           });
+
+                           // Add Checkbox to RelativeLayout
+                           if (linearLayout != null) {
+                               linearLayout.addView(checkBox);
+                           }
+
+
+                           //Log.d("food: ", foodKey);
                        }
                    }
                }
@@ -94,30 +117,35 @@ public class GetRecipesFragment extends Fragment {
 
         //CREATING FOOD ITEM CHECKBOXES
 
-        RelativeLayout relativeLayout = rootView.findViewById(R.id.rootContainer);
+        //RelativeLayout relativeLayout = rootView.findViewById(R.id.rootContainer);
+        //Log.d("list of food items: ", foodItems.toString());
         // Create Checkbox Dynamically
-        CheckBox checkBox = new CheckBox(this.getActivity());
-        checkBox.setText(R.string.check_it);
-        checkBox.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
-                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+        //for (int i = 0; i < foodItems.size(); i++){
+            //CheckBox checkBox = new CheckBox(this.getActivity());
+            //checkBox.setText(foodItems.get(i));
+            //checkBox.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                //@Override
+                //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                    //Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                //}
+            //});
 
-        // Add Checkbox to LinearLayout
-        if (relativeLayout != null) {
-            relativeLayout.addView(checkBox);
-        }
+            // Add Checkbox to RelativeLayout
+            //if (relativeLayout != null) {
+                //relativeLayout.addView(checkBox);
+            //}
 
+        //}
 
-
-
+        wv1.setVisibility(View.INVISIBLE);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                wv1.setVisibility(View.VISIBLE);
+                linearLayout.setVisibility(View.INVISIBLE);
+
                 String fullUrl = "https://www.recipetineats.com/?s=";
                 String url = ed1.getText().toString();
                 List<String> fooditems = Arrays.asList(url.split("\\s*,\\s*"));
