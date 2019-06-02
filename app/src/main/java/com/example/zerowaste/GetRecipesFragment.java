@@ -40,6 +40,7 @@ public class GetRecipesFragment extends Fragment {
     EditText ed1;
     private DatabaseReference mDatabase;
     private List<String> foodItems = new ArrayList<String>();
+    private List<String> checkedItems = new ArrayList<>();
 
 
 
@@ -84,7 +85,7 @@ public class GetRecipesFragment extends Fragment {
                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
                    if (uniqueKeySnapshot.getKey().equals(username)){
                        for (DataSnapshot foodSnapshot : uniqueKeySnapshot.child("food items").getChildren()){
-                           String foodKey = foodSnapshot.getKey();
+                           final String foodKey = foodSnapshot.getKey();
                            foodItems.add(foodKey);
                            CheckBox checkBox = new CheckBox(getActivity());
                            checkBox.setText(foodKey);
@@ -93,7 +94,14 @@ public class GetRecipesFragment extends Fragment {
                                @Override
                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                    String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                                   if (isChecked && !checkedItems.contains(foodKey)){
+                                       checkedItems.add(foodKey);
+                                   }else if (!isChecked && checkedItems.contains(foodKey)){
+                                       checkedItems.remove(foodKey);
+                                   }
                                    Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                                   Log.d("checked list", checkedItems.toString());
+
                                }
                            });
 
@@ -107,6 +115,7 @@ public class GetRecipesFragment extends Fragment {
                        }
                    }
                }
+
            }
 
            @Override
