@@ -9,4 +9,7 @@
         <item>Logout</item>
     </string-array>
     <string name="edittext_hint"><font size="12">Write ingredients here</font></string>
+
+    <string name="check_it">Check it</string>
+
 </resources>

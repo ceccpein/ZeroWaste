@@ -3,6 +3,7 @@ package com.example.zerowaste;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,6 +91,29 @@ public class GetRecipesFragment extends Fragment {
 
            }
        });
+
+        //CREATING FOOD ITEM CHECKBOXES
+
+        RelativeLayout relativeLayout = rootView.findViewById(R.id.rootContainer);
+        // Create Checkbox Dynamically
+        CheckBox checkBox = new CheckBox(this.getActivity());
+        checkBox.setText(R.string.check_it);
+        checkBox.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Add Checkbox to LinearLayout
+        if (relativeLayout != null) {
+            relativeLayout.addView(checkBox);
+        }
+
+
+
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
