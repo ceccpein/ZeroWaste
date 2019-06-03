@@ -103,6 +103,7 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
             }
         }
         if (v == btnDone) {
+
             Intent myIntent = new Intent(addFood.this, MainActivity.class);
             this.startActivity(myIntent);
         }
