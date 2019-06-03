@@ -48,13 +48,13 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="0dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/editText"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="203dp"
-            android:layout_marginLeft="203dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
             android:layout_marginTop="-1dp"
             android:layout_marginEnd="29dp"
             android:layout_marginRight="29dp"
