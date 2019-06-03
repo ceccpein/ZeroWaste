@@ -4,6 +4,7 @@ package com.example.zerowaste;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +30,10 @@ import java.util.List;
  */
 public class ShareFridgeFragment extends Fragment {
 
-    //private static Button add_user;
     private static Button share;
     private static EditText username;
-    //private ListView shareList;
-    //private ArrayAdapter adapter;
-    //public List<String> share_with = new ArrayList<>();
+    private DatabaseReference mDatabase;
+    private DatabaseReference checkUser;
 
     private String user;
 
@@ -52,24 +54,11 @@ public class ShareFridgeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        Log.d("tag123", "onStart");
 
         sharedPreferences = getActivity().getSharedPreferences("autoLogin", getActivity().MODE_PRIVATE);
         user = sharedPreferences.getString("key", null);
 
         buttonClick();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //shareList = getView().findViewById(R.id.shareList);
-
-        //Log.d("tag123","onResume");
-        //adapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, share_with);
-        //shareList.setAdapter(adapter);
 
     }
 
@@ -81,25 +70,55 @@ public class ShareFridgeFragment extends Fragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //share_with.add(username.getText().toString());
-                Toast.makeText(getActivity().getApplicationContext(), "You are now sharing fridge with: "+username.getText().toString(), Toast.LENGTH_SHORT).show();
+                checkUsername(new MyCallback() {
+                    @Override
+                    public void onCallback(Boolean value) {
+                        if (value) {
+                            Toast.makeText(getActivity().getApplicationContext(), "You are now sharing fridge with: "+username.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+                            Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
 
-                //String shareString = share_with.toString();
+                            sharedPreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, getActivity().MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(user,username.getText().toString());
+                            editor.apply();
+                            Log.d("tag1234", username.getText().toString());
 
-                sharedPreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, getActivity().MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(user,username.getText().toString());
-                editor.apply();
-                Log.d("tag1234", username.getText().toString());
+                            startActivity(myIntent);
+                        }
 
-                startActivity(myIntent);
+                    }
+                });
 
             }
         });
 
     }
 
+    private void checkUsername(final MyCallback myCallback) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        checkUser = mDatabase.child("users").child(username.getText().toString());
+
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    Toast.makeText(getActivity(), "This username doesn't exist", Toast.LENGTH_SHORT).show();
+                } else {
+                    myCallback.onCallback(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public interface MyCallback {
+        void onCallback(Boolean value);
+    }
 }
 

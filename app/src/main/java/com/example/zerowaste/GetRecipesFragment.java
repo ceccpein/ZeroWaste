@@ -122,8 +122,10 @@ public class GetRecipesFragment extends Fragment {
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 linearLayout.setVisibility(View.VISIBLE);
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                    Log.d("tag123", uniqueKeySnapshot.getKey());
                     if (uniqueKeySnapshot.getKey().equals(name)){
                         for (DataSnapshot foodSnapshot : uniqueKeySnapshot.child("food items").getChildren()){
                             final String foodKey = foodSnapshot.getKey();
