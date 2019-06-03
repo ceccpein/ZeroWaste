@@ -107,7 +107,6 @@ public class GetRecipesFragment extends Fragment {
 
             }
         });
-
     }
 
     public void loadURL(List<String> food){
@@ -140,7 +139,7 @@ public class GetRecipesFragment extends Fragment {
                             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this.";
+                                    String msg = "You have " + (isChecked ? "checked " : "unchecked ") + foodKey;
                                     if (isChecked && !checkedItems.contains(foodKey)){
                                         checkedItems.add(foodKey);
                                     }else if (!isChecked && checkedItems.contains(foodKey)){
@@ -158,37 +157,6 @@ public class GetRecipesFragment extends Fragment {
                             }
 
                         }
-                    }
-                    else if (uniqueKeySnapshot.getKey().equals("user2")){
-                        for (DataSnapshot foodSnapshot : uniqueKeySnapshot.child("food items").getChildren()){
-                            final String foodKey = foodSnapshot.getKey();
-                            foodItems.add(foodKey);
-                            CheckBox checkBox = new CheckBox(getActivity());
-                            checkBox.setText(foodKey);
-                            checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this.";
-                                    if (isChecked && !checkedItems.contains(foodKey)){
-                                        checkedItems.add(foodKey);
-                                    }else if (!isChecked && checkedItems.contains(foodKey)){
-                                        checkedItems.remove(foodKey);
-                                    }
-                                    Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                                    Log.d("checked list", checkedItems.toString());
-
-                                }
-                            });
-
-                            // Add Checkbox to RelativeLayout
-                            if (linearLayout != null) {
-                                linearLayout.addView(checkBox);
-                            }
-
-                        }
-
-
                     }
                 }
 
@@ -200,7 +168,6 @@ public class GetRecipesFragment extends Fragment {
             }
         });
     }
-
 
     private class MyBrowser extends WebViewClient {
         @Override
