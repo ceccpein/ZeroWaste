@@ -70,13 +70,11 @@ public class GetRecipesFragment extends Fragment {
         this.username = sharedpreferences.getString("key",null);
         SharedPreferences prefs = this.getActivity().getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
         this.shareName = prefs.getString(username, null);
-        Log.d("Username is: ", username);
 
         if (foodItems.isEmpty()) {
             getFoodFromDatabase(username);
         }
         if (shareName != null) {
-            Log.d("tag123", shareName.replace("[","").replace("]",""));
             getFoodFromDatabase(shareName.replace("[","").replace("]",""));
         }
 
@@ -88,19 +86,15 @@ public class GetRecipesFragment extends Fragment {
                 String url = ed1.getText().toString();
 
                 if (!url.isEmpty()){
-                    Log.d("url", "is not empty");
                     if (url.contains(",")){
                         foodItems = new LinkedList<String>(Arrays.asList(url.split(",")));
                     }else{
                         foodItems = new LinkedList<String>(Arrays.asList(url.split(" ")));
                     }
                     loadURL(foodItems);
-                    Log.d("foodItems url: ", foodItems.toString());
                     foodItems.removeAll(foodItems);
                 }else if (!checkedItems.isEmpty()){
-                    Log.d("checked items ", "is not empty");
                     loadURL(checkedItems);
-                    Log.d("fooditems checkbox: ", checkedItems.toString());
                     checkedItems.removeAll(checkedItems);
                 }else{
                     return;
@@ -140,14 +134,13 @@ public class GetRecipesFragment extends Fragment {
                             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    String msg = "You have " + (isChecked ? "checked " : "unchecked ") + foodKey;
+                                    //String msg = "You have " + (isChecked ? "checked " : "unchecked ") + foodKey;
                                     if (isChecked && !checkedItems.contains(foodKey)){
                                         checkedItems.add(foodKey);
                                     }else if (!isChecked && checkedItems.contains(foodKey)){
                                         checkedItems.remove(foodKey);
                                     }
-                                    Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                                    Log.d("checked list", checkedItems.toString());
+                                    //Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
                                 }
                             });
