@@ -29,9 +29,9 @@ public class ShareFridgeFragment extends Fragment {
     //private static Button add_user;
     private static Button share;
     private static EditText username;
-    private ListView shareList;
-    private ArrayAdapter adapter;
-    public List<String> share_with = new ArrayList<>();
+    //private ListView shareList;
+    //private ArrayAdapter adapter;
+    //public List<String> share_with = new ArrayList<>();
 
     private String user;
 
@@ -65,11 +65,11 @@ public class ShareFridgeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        shareList = getView().findViewById(R.id.shareList);
+        //shareList = getView().findViewById(R.id.shareList);
 
-        Log.d("tag123","onResume");
-        adapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, share_with);
-        shareList.setAdapter(adapter);
+        //Log.d("tag123","onResume");
+        //adapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, share_with);
+        //shareList.setAdapter(adapter);
 
     }
 
@@ -81,18 +81,18 @@ public class ShareFridgeFragment extends Fragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share_with.add(username.getText().toString());
+                //share_with.add(username.getText().toString());
                 Toast.makeText(getActivity().getApplicationContext(), "You are now sharing fridge with: "+username.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
 
-                String shareString = share_with.toString();
+                //String shareString = share_with.toString();
 
                 sharedPreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(user,shareString);
+                editor.putString(user,username.getText().toString());
                 editor.apply();
-                Log.d("tag1234", shareString);
+                Log.d("tag1234", username.getText().toString());
 
                 startActivity(myIntent);
 

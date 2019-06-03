@@ -47,6 +47,7 @@ public class MyAccountFragment extends Fragment {
         shareFridge = (TextView) getView().findViewById(R.id.shareFridge);
         sharedpreferences = this.getActivity().getSharedPreferences("ShareFridge", getActivity().MODE_PRIVATE);
         String shareList = sharedpreferences.getString(username, null);
+
         if (shareList == null) {
             shareFridge.setText("Nobody");
         } else {

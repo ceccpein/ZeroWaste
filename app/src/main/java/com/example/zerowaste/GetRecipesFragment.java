@@ -3,13 +3,11 @@ package com.example.zerowaste;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -17,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -77,8 +72,14 @@ public class GetRecipesFragment extends Fragment {
         this.shareName = prefs.getString(username, null);
         Log.d("Username is: ", username);
 
-        getFoodFromDatabase(username);
-        getFoodFromDatabase(shareName);
+        if (foodItems.isEmpty()) {
+            getFoodFromDatabase(username);
+        }
+        if (shareName != null) {
+            Log.d("tag123", shareName.replace("[","").replace("]",""));
+            getFoodFromDatabase(shareName.replace("[","").replace("]",""));
+        }
+
 
         wv1.setVisibility(View.INVISIBLE);
         b1.setOnClickListener(new View.OnClickListener() {
