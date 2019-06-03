@@ -43,17 +43,7 @@
         android:layout_toRightOf="@+id/in_date"
         android:layout_toEndOf="@+id/in_date"
         android:textSize="11dp"/>
-<!--
-    <Button
-        android:id="@+id/select_food"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_alignBottom="@+id/food_item"
-        android:layout_toRightOf="@+id/food_item"
-        android:text="@string/select_food"
-        android:textSize="11dp"/>
--->
+
     <Button
         android:id="@+id/add_btn"
         android:layout_width="wrap_content"
