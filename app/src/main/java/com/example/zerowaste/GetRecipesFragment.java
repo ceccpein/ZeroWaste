@@ -72,7 +72,7 @@ public class GetRecipesFragment extends Fragment {
         SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         final String username = sharedpreferences.getString("key",null);
         SharedPreferences prefs = this.getActivity().getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
-        final String shareList = prefs.getString(username, null);
+        final String shareName = prefs.getString(username, null);
         Log.d("Username is: ", username);
 
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
