@@ -1,7 +1,5 @@
 package com.example.zerowaste;
 
-import android.app.Activity;
-import android.app.AliasActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,11 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -153,7 +149,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
 
-
     public void readData(final MyCallback2 myCallback) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         String path = "/users/"+user+"/food items/";
@@ -168,7 +163,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                     Log.d("tag123", "empty datasnapshot");
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });

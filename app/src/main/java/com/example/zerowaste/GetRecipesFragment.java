@@ -35,7 +35,6 @@ public class GetRecipesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_getrecipes, container, false);
-        //getActivity().setContentView(R.layout.fragment_getrecipes);
 
         b1=(Button)rootView.findViewById(R.id.button);
         ed1=(EditText)rootView.findViewById(R.id.editText);
@@ -59,7 +58,6 @@ public class GetRecipesFragment extends Fragment {
                         fullUrl = fullUrl + "%2C+" + fooditems.get(i);
                     }
                 }
-                //fullUrl = fullUrl + "&sort=re";
 
                 Log.d("url: ", url);
                 Log.d("fullURL ", fullUrl);

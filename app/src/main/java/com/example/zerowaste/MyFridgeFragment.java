@@ -60,7 +60,6 @@ public class MyFridgeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        //may have to remove these lines?
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         addfood = (getView().findViewById(R.id.add_item));
@@ -69,9 +68,7 @@ public class MyFridgeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                //Log.d(TAG, "Add food has been clicked");
                 Intent newIntent = new Intent(getActivity().getApplicationContext(), addFood.class);
-                //Log.d(TAG, "intent created");
                 startActivity(newIntent);
             }
         });
@@ -151,7 +148,6 @@ public class MyFridgeFragment extends Fragment {
                     || Integer.parseInt(ddmmyyyyList.get(2)) == Integer.parseInt(ddmmyyyyTodaysList.get(2))
                     && Integer.parseInt(ddmmyyyyList.get(1)) == Integer.parseInt(ddmmyyyyTodaysList.get(1))
                     && Integer.parseInt(ddmmyyyyList.get(0)) < Integer.parseInt(ddmmyyyyTodaysList.get(0))) {
-                Log.d(TAG,"Food has expired: "+ foodexppair);
                 foodExpiredList.add(foodexppair);
                 //mark red?
             }
@@ -160,7 +156,6 @@ public class MyFridgeFragment extends Fragment {
                     && Integer.parseInt(ddmmyyyyList.get(1)) == Integer.parseInt(ddmmyyyyTodaysList.get(1))
                     && Integer.parseInt(ddmmyyyyList.get(0)) > Integer.parseInt(ddmmyyyyTodaysList.get(0))
                     && (Integer.parseInt(ddmmyyyyList.get(0)) - Integer.parseInt(ddmmyyyyTodaysList.get(0))) <= 2) {
-                Log.d(TAG,"Food is about to expire " + foodexppair);
                 foodExpiresList.add(foodexppair);
             }
 
@@ -194,36 +189,26 @@ public class MyFridgeFragment extends Fragment {
         groceryanddate = groceryanddate.replace(" ", "");
         String[] groceryanddate2 = groceryanddate.split(":");
         grocery = groceryanddate2[0];
-        //Log.d(TAG,"raw input " + groceryanddate + ", split "+ groceryanddate2 + ", grocery " + grocery);
         DatabaseReference remove = mDatabase.child("users").child(user).child("food items").child(grocery);
         remove.removeValue();
     }
 
     public void readData(final MyCallback myCallback) {
-        Log.d(TAG, "Readdata has been called");
 
         String user = getUsername();
         shareList = getUsernameList();
-        Log.d(TAG+"username readDb", user);
 
-        //Log.d("tag123 usernamelist", shareList.toString());
         shareList.add(user);
 
-        Log.d(TAG, "User: "+ user);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Log.d(TAG, "Read from database");
         if (shareList.size() == 1) {
-            Log.d("tag123", "not sharing with anybody");
             String path = "/users/"+user+"/food items";
-            Log.d(TAG, "Path: "+ path);
             DatabaseReference myRef = database.getReference(path);
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
-                        Log.d("tag123", dataSnapshot.toString());
                         String value = dataSnapshot.getValue().toString();
-                        Log.d(TAG, "Value readdata; "+value);
                         myCallback.onCallback(value);
                     } else {
                         Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
@@ -238,15 +223,12 @@ public class MyFridgeFragment extends Fragment {
         } else {
             for (String username : shareList) {
                 String path = "/users/"+username+"/food items";
-                Log.d(TAG, "Path: "+ path);
                 DatabaseReference myRef = database.getReference(path);
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue() != null) {
-                            Log.d("tag123", dataSnapshot.toString());
                             String value = dataSnapshot.getValue().toString();
-                            Log.d(TAG, "Value readdata; "+value);
                             myCallback.onCallback(value);
                         } else {
                             Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
@@ -272,7 +254,6 @@ public class MyFridgeFragment extends Fragment {
     public String getUsername() {
         sharedpreferences = this.getActivity().getSharedPreferences("autoLogin", getActivity().getApplicationContext().MODE_PRIVATE);
         String j = sharedpreferences.getString("key",null);
-        Log.d(TAG, "Username in pref " +j);
         return j;
     }
 
@@ -282,7 +263,6 @@ public class MyFridgeFragment extends Fragment {
         if (j == null) {
             return new ArrayList<>();
         } else {
-            Log.d("tag123 ulist bf con", j);
             String[] TempUsernames = j.replace("[", "").replace("]", "").split(",");
             ArrayList<String> usernames = new ArrayList<>(Arrays.asList(TempUsernames));
             return usernames;

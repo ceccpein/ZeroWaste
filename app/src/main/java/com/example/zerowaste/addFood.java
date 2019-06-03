@@ -103,13 +103,6 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
             }
         }
         if (v == btnDone) {
-            //Intent myIntent = new Intent(addFood.this, MyFridgeFragment.class);
-            //this.startActivity(myIntent);
-            /*
-            Fragment fridgeFragment = new MyFridgeFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fridge_fragment, fridgeFragment).commit();
-            */
             Intent myIntent = new Intent(addFood.this, MainActivity.class);
             this.startActivity(myIntent);
         }
@@ -123,8 +116,6 @@ public class addFood extends AppCompatActivity implements View.OnClickListener{
     public String getUsername() {
         sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         String j = sharedpreferences.getString("key",null);
-        //Log.d(TAG, "Username in pref " +j);
-        //return username.getText().toString();
         return j;
     }
 

@@ -111,21 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 zerowaste.setVisibility(View.GONE);
                 front.setVisibility(View.GONE);
                 break;
-            /*
             case 4:
-                fragment = new ShoppingListFragment();
-                hello.setVisibility(View.GONE);
-                zerowaste.setVisibility(View.GONE);
-                front.setVisibility(View.GONE);
-                break;
-                */
-            case 4:
-                /*
-                SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("key", 0);
-                editor.apply();
-                */
+
                 SharedPreferences prefs = this.getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("key", null);

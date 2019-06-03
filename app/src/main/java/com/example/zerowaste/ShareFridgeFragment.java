@@ -67,10 +67,6 @@ public class ShareFridgeFragment extends Fragment {
 
         shareList = getView().findViewById(R.id.shareList);
 
-        //sharedPreferences = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        //String restoredString = sharedPreferences.getString("shareList", null);
-        //List<String> shareFridgeList = new ArrayList<String>(Arrays.asList(restoredString.replace("[\"","").replace("\"]","").split("\",\"")));
-
         Log.d("tag123","onResume");
         adapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, share_with);
         shareList.setAdapter(adapter);
@@ -79,22 +75,8 @@ public class ShareFridgeFragment extends Fragment {
 
     public void buttonClick() {
 
-        //add_user = (Button) getView().findViewById(R.id.add_users_btn);
         share = (Button) getView().findViewById(R.id.share_btn);
         username = (EditText) getView().findViewById(R.id.user_name);
-
-        /*
-        add_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share_with.add(username.getText().toString());
-                Log.d("tag1234",share_with.toString());
-                //user_share = username.getText().toString();
-                Toast.makeText(getActivity().getApplicationContext(), username.getText().toString() + " is added", Toast.LENGTH_SHORT).show();
-                username.setText("");
-            }
-        });
-        */
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
