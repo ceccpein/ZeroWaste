@@ -70,13 +70,15 @@ public class GetRecipesFragment extends Fragment {
         this.username = sharedpreferences.getString("key",null);
         SharedPreferences prefs = this.getActivity().getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
         this.shareName = prefs.getString(username, null);
+        Log.d("tag1234",shareName);
 
         if (foodItems.isEmpty()) {
             getFoodFromDatabase(username);
+            if (shareName != null) {
+                getFoodFromDatabase(shareName);
+            }
         }
-        if (shareName != null) {
-            getFoodFromDatabase(shareName.replace("[","").replace("]",""));
-        }
+
 
 
         wv1.setVisibility(View.INVISIBLE);
