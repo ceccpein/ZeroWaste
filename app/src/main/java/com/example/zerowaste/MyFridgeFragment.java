@@ -2,7 +2,6 @@ package com.example.zerowaste;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,8 +42,12 @@ public class MyFridgeFragment extends Fragment {
     private static Button addfood;
 
     ArrayList<String> shareList;
-
+    List<String> dataList;
     SharedPreferences sharedpreferences;
+    ArrayAdapter<String> arrayAdapter;
+
+    ListView listview;
+
 
     static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<>();
     final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<>();
@@ -72,9 +75,9 @@ public class MyFridgeFragment extends Fragment {
             }
         });
 
-        final List<String> dataList = new ArrayList<String>();
-        final ListView listview = (ListView) getView().findViewById(R.id.listview);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.custom_foodlist, dataList);
+        dataList = new ArrayList<String>();
+        listview = (ListView) getView().findViewById(R.id.listview);
+        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.custom_foodlist, dataList);
         final ArrayList<ArrayList<String>> foodExpList = new ArrayList<ArrayList<String>>();
 
 
@@ -102,10 +105,9 @@ public class MyFridgeFragment extends Fragment {
 
 
                 listview.setAdapter(arrayAdapter);
-                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
-                        Log.d("tag1234 gros", dataList.get(position));
                         TextView myMsg = new TextView(getActivity());
                         myMsg.setText("Are you sure you want to delete "+ dataList.get(position) +"?");
                         myMsg.setTextSize(20);
@@ -124,6 +126,12 @@ public class MyFridgeFragment extends Fragment {
                                 .create()
                                 .show();
 
+                    }
+                });*/
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
+                        removeGrocery(dataList.get(position),position);
                     }
                 });
             }
@@ -177,14 +185,46 @@ public class MyFridgeFragment extends Fragment {
         return rootView;
     }
 
-    public void removeGrocery(String groceryanddate) {
+    public void removeGrocery(String groceryanddate, final int pos) {
+
         String user = getUsername();
         String grocery;
+        String date;
         groceryanddate = groceryanddate.replace(" ", "");
         String[] groceryanddate2 = groceryanddate.split(":");
         grocery = groceryanddate2[0];
-        DatabaseReference remove = mDatabase.child("users").child(user).child("food items").child(grocery);
-        remove.removeValue();
+        date = groceryanddate2[1];
+        final Boolean booleanValue = false;
+        readFood(new MyCallback2() {
+            @Override
+            public void onCallback2(Boolean value, final String groc) {
+                if (value) {
+                    TextView myMsg = new TextView(getActivity());
+                    myMsg.setText("Are you sure you want to delete "+ groc +"?");
+                    myMsg.setTextSize(20);
+
+                    new AlertDialog.Builder(getActivity())
+                            .setCustomTitle(myMsg)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    mDatabase.child("users").child(getUsername()).child("food items").child(groc).removeValue();
+                                    dataList.remove(pos);
+                                    listview.setAdapter(arrayAdapter);
+                                }
+                            })
+
+                            .setNegativeButton("No",null)
+                            .create()
+                            .show();
+
+
+                } else {
+                    Toast.makeText(getActivity(), "This does not belong to you", Toast.LENGTH_SHORT).show();
+                    Log.d("tag123", "This is not in your fridge");
+                }
+            }
+        }, grocery,date);
+
     }
 
     public void readData(final MyCallback myCallback) {
@@ -218,9 +258,41 @@ public class MyFridgeFragment extends Fragment {
         }
     }
 
+    public void readFood(final MyCallback2 myCallback, final String grocery, final String date) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final Boolean[] exist = {false};
+
+        String path = "/users/"+getUsername()+"/food items";
+        DatabaseReference myRef = database.getReference(path);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String groc = grocery;
+                String grocDate = date;
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot foodSnapshot : dataSnapshot.getChildren()) {
+                        if (foodSnapshot.getKey().equals(groc) && foodSnapshot.getValue().equals(grocDate)) {
+                            //mDatabase.child("users").child(thisuser).child("food items").child(groc).removeValue();
+                            exist[0] = true;
+                        }
+                    }
+
+                } myCallback.onCallback2(exist[0], groc);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
     public interface MyCallback {
         void onCallback(String value);
         ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist);
+    }
+
+    public interface MyCallback2 {
+        void onCallback2(Boolean value, String groc);
     }
 
     public String getUsername() {
