@@ -77,10 +77,8 @@ public class Login extends AppCompatActivity {
                                 toastmsg("New user created. Username: " + username.getText().toString());
                                 Intent myIntent = new Intent(Login.this, MainActivity.class);
                                 startActivity(myIntent);
-                                //autoSave = 1;
                                 String uname = username.getText().toString();
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                                //editor.putInt("key", autoSave);
                                 editor.putString("key", uname);
                                 editor.apply();
                             }
@@ -109,10 +107,8 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, username.getText().toString() + " is signed in", Toast.LENGTH_SHORT).show();
                                 Intent myIntent = new Intent(Login.this, MainActivity.class);
                                 startActivity(myIntent);
-                                //autoSave = 1;
                                 String uname = username.getText().toString();
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                                //editor.putInt("key", autoSave);
                                 editor.putString("key", uname);
                                 editor.apply();
                             } else {

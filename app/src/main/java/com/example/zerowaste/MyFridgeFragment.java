@@ -38,8 +38,8 @@ import static android.graphics.Color.rgb;
 
 
 public class MyFridgeFragment extends Fragment {
+
     private DatabaseReference mDatabase;
-    String TAG = "tag12346";
     private static Button addfood;
 
     ArrayList<String> shareList;
@@ -48,7 +48,6 @@ public class MyFridgeFragment extends Fragment {
 
     static final ArrayList<ArrayList<String>> foodExpiredList = new ArrayList<>();
     final ArrayList<ArrayList<String>> foodExpiresList = new ArrayList<>();
-
 
     public MyFridgeFragment() {
     }
@@ -129,7 +128,6 @@ public class MyFridgeFragment extends Fragment {
                 });
             }
 
-
             @Override
             public ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist) {
                 String pattern = "dd-MM-yyyy";
@@ -139,7 +137,6 @@ public class MyFridgeFragment extends Fragment {
                 ArrayList<String> ddmmyyyyTodaysList = new ArrayList<String>(Arrays.asList(ddmmyyyyTodaysArray));
 
                 for (ArrayList<String> foodexppair : foodlist) {
-                    //Log.d(TAG, todaysDate + " " + foodexppair.get(1));
                     String[] ddmmyyyyArray = foodexppair.get(1).split("-");
                     ArrayList<String> ddmmyyyyList = new ArrayList<String>(Arrays.asList(ddmmyyyyArray));
                     if (Integer.parseInt(ddmmyyyyList.get(2)) < Integer.parseInt(ddmmyyyyTodaysList.get(2))
@@ -158,12 +155,9 @@ public class MyFridgeFragment extends Fragment {
                             && (Integer.parseInt(ddmmyyyyList.get(0)) - Integer.parseInt(ddmmyyyyTodaysList.get(0))) <= 2) {
                         foodExpiresList.add(foodexppair);
                     }
-
                 }
                 return null;
             }
-
-
         });
 
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
@@ -201,8 +195,10 @@ public class MyFridgeFragment extends Fragment {
         shareList.add(user);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        if (shareList.size() == 1) {
-            String path = "/users/"+user+"/food items";
+
+        for (String username : shareList) {
+            final String thisuser = username;
+            String path = "/users/"+username+"/food items";
             DatabaseReference myRef = database.getReference(path);
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -211,44 +207,20 @@ public class MyFridgeFragment extends Fragment {
                         String value = dataSnapshot.getValue().toString();
                         myCallback.onCallback(value);
                     } else {
-                        Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                        if (shareList.contains(thisuser) && shareList.size() == 1) {
+                            Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                 }
-
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {}
             });
-        } else {
-            for (String username : shareList) {
-                String path = "/users/"+username+"/food items";
-                DatabaseReference myRef = database.getReference(path);
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue() != null) {
-                            String value = dataSnapshot.getValue().toString();
-                            myCallback.onCallback(value);
-                        } else {
-                            Toast.makeText(getActivity(), "Your fridge is empty", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
-            }
         }
     }
 
     public interface MyCallback {
         void onCallback(String value);
         ArrayList<String> findExpiringFood(ArrayList<ArrayList<String>> foodlist);
-    }
-
-    public interface MyCallback2 {
-        void onCallback(String value);
     }
 
     public String getUsername() {
