@@ -70,7 +70,7 @@ public class GetRecipesFragment extends Fragment {
         this.username = sharedpreferences.getString("key",null);
         SharedPreferences prefs = this.getActivity().getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
         this.shareName = prefs.getString(username, null);
-        
+
         if (foodItems.isEmpty()) {
             getFoodFromDatabase(username);
             if (shareName != null) {

@@ -44,17 +44,19 @@ public class MyAccountFragment extends Fragment {
         username = sharedpreferences.getString("key",null);
         userIn.setText(username);
 
+        stopSharing = (Button) getView().findViewById(R.id.stopShare);
         shareFridge = (TextView) getView().findViewById(R.id.shareFridge);
         sharedpreferences = this.getActivity().getSharedPreferences("ShareFridge", getActivity().MODE_PRIVATE);
         String shareList = sharedpreferences.getString(username, null);
 
         if (shareList == null) {
             shareFridge.setText("Nobody");
+            stopSharing.setVisibility(View.GONE);
         } else {
             shareFridge.setText(shareList.replace("[","").replace("]",""));
         }
 
-        stopSharing = (Button) getView().findViewById(R.id.stopShare);
+
         stopSharing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +65,7 @@ public class MyAccountFragment extends Fragment {
                 editor.putString(username, null);
                 editor.apply();
                 shareFridge.setText("Nobody");
+                stopSharing.setVisibility(View.GONE);
             }
         });
 
