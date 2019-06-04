@@ -82,7 +82,6 @@ public class ShareFridgeFragment extends Fragment {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(user,username.getText().toString());
                             editor.apply();
-                            Log.d("tag1234", username.getText().toString());
 
                             startActivity(myIntent);
                         }
