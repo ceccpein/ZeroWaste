@@ -28,13 +28,20 @@ public class AlarmReceiver extends BroadcastReceiver {
     public String InAlarmReceiver = "In alarmreceiver";
     SharedPreferences sharedPreferences;
     String user = "";
+    String sharedWith = null;
+    ArrayList<String> shareList = new ArrayList<>();
 
-    MyFridgeFragment fridgeFragment = new MyFridgeFragment();
     @Override
     public void onReceive(Context context, Intent intent) {
 
         sharedPreferences = context.getSharedPreferences("autoLogin", context.MODE_PRIVATE);
         user = sharedPreferences.getString("key", null);
+        shareList.add(user);
+        SharedPreferences prefs = context.getSharedPreferences("ShareFridge", Context.MODE_PRIVATE);
+        sharedWith = prefs.getString(user, null);
+        if (sharedWith != null) {
+            shareList.add(sharedWith);
+        }
 
         Log.d(InAlarmReceiver, "Beginning of alarmreceiver, 1");
 
@@ -151,21 +158,25 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void readData(final MyCallback2 myCallback) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String path = "/users/"+user+"/food items/";
-        DatabaseReference myRef = database.getReference(path);
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    String value = dataSnapshot.getValue().toString();
-                    myCallback.onCallback2(value);
-                } else {
-                    Log.d("tag123", "empty datasnapshot");
+        for (String username :shareList) {
+            String path = "/users/" + username + "/food items/";
+            DatabaseReference myRef = database.getReference(path);
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        String value = dataSnapshot.getValue().toString();
+                        myCallback.onCallback2(value);
+                    } else {
+                        Log.d("tag123", "empty datasnapshot");
+                    }
                 }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
     }
 
     public interface MyCallback2 {

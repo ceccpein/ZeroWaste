@@ -1,5 +1,7 @@
 package com.example.zerowaste;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     private String[] mNavigationDrawerItemTitles;
@@ -30,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
 
         SharedPreferences sharedpreferences;
         sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);

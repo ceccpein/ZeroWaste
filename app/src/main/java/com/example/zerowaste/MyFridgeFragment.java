@@ -105,29 +105,6 @@ public class MyFridgeFragment extends Fragment {
 
 
                 listview.setAdapter(arrayAdapter);
-                /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
-                        TextView myMsg = new TextView(getActivity());
-                        myMsg.setText("Are you sure you want to delete "+ dataList.get(position) +"?");
-                        myMsg.setTextSize(20);
-
-                        new AlertDialog.Builder(getActivity())
-                                .setCustomTitle(myMsg)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        removeGrocery(dataList.get(position));
-                                        dataList.remove(position);
-                                        listview.setAdapter(arrayAdapter);
-                                    }
-                                })
-
-                                .setNegativeButton("No",null)
-                                .create()
-                                .show();
-
-                    }
-                });*/
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
@@ -168,13 +145,6 @@ public class MyFridgeFragment extends Fragment {
             }
         });
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent broadcast = PendingIntent.getBroadcast(getActivity().getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
-
     }
 
     @Override
@@ -186,15 +156,12 @@ public class MyFridgeFragment extends Fragment {
     }
 
     public void removeGrocery(String groceryanddate, final int pos) {
-
-        String user = getUsername();
         String grocery;
         String date;
         groceryanddate = groceryanddate.replace(" ", "");
         String[] groceryanddate2 = groceryanddate.split(":");
         grocery = groceryanddate2[0];
         date = groceryanddate2[1];
-        final Boolean booleanValue = false;
         readFood(new MyCallback2() {
             @Override
             public void onCallback2(Boolean value, final String groc) {
