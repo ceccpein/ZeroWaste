@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),60000, broadcast);
+        //gets repeated every 12th hours
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),43200000, broadcast);
 
         SharedPreferences sharedpreferences;
         sharedpreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
