@@ -54,13 +54,13 @@
         android:id="@+id/sharingWith"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You are shring fridge with: "
-        app:layout_constraintBaseline_toBaselineOf="@+id/shareFridge"
-        app:layout_constraintTop_toBottomOf="@+id/username_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/shareFridge"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="50dp"/>
+        android:text="You are sharing fridge with: "
+        app:layout_constraintBaseline_toBaselineOf="@+id/shareFridge"
+        app:layout_constraintEnd_toStartOf="@+id/shareFridge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_text" />
 
 
 </android.support.constraint.ConstraintLayout>
