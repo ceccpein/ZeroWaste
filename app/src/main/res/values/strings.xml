@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ZeroWaste</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>My Fridge</item>
+        <item>My Account</item>
+        <item>Share Fridge</item>
+        <item>Get Recipes</item>
+        <item>Shopping List</item>
+        <item>Logout</item>
+    </string-array>
+    <string name="edittext_hint"><font size="12">Write ingredients here</font></string>
 </resources>
